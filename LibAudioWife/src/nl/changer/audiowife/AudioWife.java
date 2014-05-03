@@ -49,7 +49,7 @@ public class AudioWife {
 	 * Keep a single copy of this in memory
 	 ****/
 	private static AudioWife mAudioWife;
-	
+
 	/****
 	 * Playback progress update time in milliseconds
 	 ****/
@@ -57,7 +57,7 @@ public class AudioWife {
 
 	private Handler mHandler;
 
-	private  MediaPlayer mMediaPlayer;
+	private MediaPlayer mMediaPlayer;
 
 	private SeekBar mSeekBar;
 	private TextView mPlaybackTime;
@@ -68,12 +68,12 @@ public class AudioWife {
 	 * Audio URI
 	 ****/
 	private static Uri mUri;
-	
+
 	public static AudioWife getInstance() {
-		
-		if(mAudioWife == null)
+
+		if (mAudioWife == null)
 			mAudioWife = new AudioWife();
-		
+
 		return mAudioWife;
 	}
 
@@ -192,28 +192,31 @@ public class AudioWife {
 	 * @param uri
 	 *            Uri of the audio to be played.
 	 ****/
-	public AudioWife init(Context ctx, Uri uri, SeekBar seekBar,
-			View playBtn, View pauseBtn, TextView playTime) {
+	public AudioWife init(Context ctx, Uri uri, View playBtn, View pauseBtn,
+			TextView playTime) {
 
 		if (uri == null)
 			throw new IllegalArgumentException("Uri cannot be null");
 
-		if(mAudioWife == null)
+		if (mAudioWife == null)
 			mAudioWife = new AudioWife();
-		
+
 		mUri = uri;
-		mSeekBar = seekBar;
 		mPlayButton = playBtn;
 		mPauseButton = pauseBtn;
 		mPlaybackTime = playTime;
 
 		mHandler = new Handler();
 
-		mAudioWife.initPlayer(ctx);
+		initPlayer(ctx);
 
-		mAudioWife.initMediaSeekBar();
-		
-		return mAudioWife;
+		return this;
+	}
+
+	public AudioWife setSeekBar(SeekBar seekbar) {
+		mSeekBar = seekbar;
+		initMediaSeekBar();
+		return this;
 	}
 
 	/****
