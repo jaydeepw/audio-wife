@@ -50,8 +50,14 @@ public class AudioPlayerController {
 		}
 	};
 
+	/***
+	 * Start playing the audio. Calling this method if the alredy playing audio, has no effect
+	 ****/
 	public static void play(Context ctx) {
 
+		if(mMediaPlayer.isPlaying())
+			return;
+		
 		int currentTime = mMediaPlayer.getCurrentPosition();
 		mSeekBar.setProgress((int) currentTime);
 
@@ -104,13 +110,19 @@ public class AudioPlayerController {
 
 		mPlaybackTime.setText(playbackStr);
 
-		DebugLog.i(currentTime + " / " + totalDuration);
+		// DebugLog.i(currentTime + " / " + totalDuration);
 	}
 
+	/***
+	 * Pause the audio being played. 
+	 * Calling this method has no effect if the audio is already paused*/
 	public static void pause() {
-		mMediaPlayer.pause();
-		mCurrentPlayTime = mSeekBar.getProgress();
-		setPlayable();
+		
+		if(mMediaPlayer.isPlaying()) {
+			mMediaPlayer.pause();
+			mCurrentPlayTime = mSeekBar.getProgress();
+			setPlayable();	
+		}
 	}
 
 	private static void setPlayable() {
