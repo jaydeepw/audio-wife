@@ -31,8 +31,14 @@ Getting started
 	TextView mPlaybackTime = (TextView) yourAudioPlayerView.findViewById(R.id.playback_time);
 	Button mPlayMedia = (Button) yourAudioPlayerView.findViewById(R.id.play);
 	Button mPauseMedia = (Button) yourAudioPlayerView.findViewById(R.id.pause);
-
-	AudioWife.init(mContext, mUri, mMediaSeekBar, mPlayMedia, mPauseMedia, mPlaybackTime);
+	
+	AudioWife.getInstance()
+			.init(mContext, mUri)
+			.setPlayView(mPlayMedia)
+			.setPauseView(mPauseMedia)
+			.setSeekBar(mMediaSeekBar)
+			.setPlaytime(mPlaybackTime)
+			.play();
 ```
 
 Why the name 'AudioWife'?

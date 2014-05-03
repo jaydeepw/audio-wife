@@ -94,8 +94,8 @@ public class AudioWife {
 	};
 
 	/***
-	 * Start playing the audio. Calling this method if the already playing
-	 * audio, has no effect.
+	 * Start playing the audio. Calling this method if the audio is already playing
+	 * has no effect.
 	 ****/
 	public void play() {
 
@@ -194,7 +194,7 @@ public class AudioWife {
 	 * @param uri
 	 *            Uri of the audio to be played.
 	 ****/
-	public AudioWife init(Context ctx, Uri uri, TextView playTime) {
+	public AudioWife init(Context ctx, Uri uri) {
 
 		if (uri == null)
 			throw new IllegalArgumentException("Uri cannot be null");
@@ -203,8 +203,6 @@ public class AudioWife {
 			mAudioWife = new AudioWife();
 
 		mUri = uri;
-
-		mPlaybackTime = playTime;
 
 		mHandler = new Handler();
 
@@ -226,6 +224,15 @@ public class AudioWife {
 	 ****/
 	public AudioWife setPauseView(View pause) {
 		mPauseButton = pause;
+		return this;
+	}
+	
+	/***
+	 * Set current playback time. 
+	 * Use this if you have a playback time counter in the UI.
+	 ****/
+	public AudioWife setPlaytime(TextView playTime) {
+		mPlaybackTime = playTime;
 		return this;
 	}
 
