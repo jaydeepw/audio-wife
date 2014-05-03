@@ -45,26 +45,39 @@ public class AudioWife {
 
 	private static final String TAG = AudioWife.class.getSimpleName();
 
+	/***
+	 * Keep a single copy of this in memory
+	 ****/
+	private static AudioWife mAudioWife;
+	
 	/****
 	 * Playback progress update time in milliseconds
 	 ****/
 	private static final int AUDIO_PROGRESS_UPDATE_TIME = 100;
 
-	private static Handler mHandler;
+	private Handler mHandler;
 
-	private static MediaPlayer mMediaPlayer;
+	private  MediaPlayer mMediaPlayer;
 
-	private static SeekBar mSeekBar;
-	private static TextView mPlaybackTime;
-	private static View mPlayButton;
-	private static View mPauseButton;
+	private SeekBar mSeekBar;
+	private TextView mPlaybackTime;
+	private View mPlayButton;
+	private View mPauseButton;
 
 	/***
 	 * Audio URI
 	 ****/
 	private static Uri mUri;
+	
+	public static AudioWife getInstance() {
+		
+		if(mAudioWife == null)
+			mAudioWife = new AudioWife();
+		
+		return mAudioWife;
+	}
 
-	private static Runnable mUpdateProgress = new Runnable() {
+	private Runnable mUpdateProgress = new Runnable() {
 		public void run() {
 
 			if (mHandler != null && mMediaPlayer.isPlaying()) {
@@ -82,7 +95,7 @@ public class AudioWife {
 	 * Start playing the audio. Calling this method if the already playing
 	 * audio, has no effect.
 	 ****/
-	public static void play() {
+	public void play() {
 
 		if (mUri == null)
 			throw new IllegalStateException(
@@ -105,7 +118,7 @@ public class AudioWife {
 	 * Pause the audio being played. Calling this method has no effect if the
 	 * audio is already paused
 	 */
-	public static void pause() {
+	public void pause() {
 
 		if (mMediaPlayer.isPlaying()) {
 			mMediaPlayer.pause();
@@ -113,7 +126,7 @@ public class AudioWife {
 		}
 	}
 
-	private static void updatePlaytime(int currentTime) {
+	private void updatePlaytime(int currentTime) {
 		long totalDuration = 0;
 
 		if (mMediaPlayer != null) {
@@ -155,7 +168,7 @@ public class AudioWife {
 		// DebugLog.i(currentTime + " / " + totalDuration);
 	}
 
-	private static void setPlayable() {
+	private void setPlayable() {
 		if (mPlayButton != null)
 			mPlayButton.setVisibility(View.VISIBLE);
 
@@ -163,7 +176,7 @@ public class AudioWife {
 			mPauseButton.setVisibility(View.GONE);
 	}
 
-	private static void setPausable() {
+	private void setPausable() {
 		if (mPlayButton != null)
 			mPlayButton.setVisibility(View.GONE);
 		if (mPauseButton != null)
@@ -179,12 +192,15 @@ public class AudioWife {
 	 * @param uri
 	 *            Uri of the audio to be played.
 	 ****/
-	public static void init(Context ctx, Uri uri, SeekBar seekBar,
+	public AudioWife init(Context ctx, Uri uri, SeekBar seekBar,
 			View playBtn, View pauseBtn, TextView playTime) {
 
 		if (uri == null)
 			throw new IllegalArgumentException("Uri cannot be null");
 
+		if(mAudioWife == null)
+			mAudioWife = new AudioWife();
+		
 		mUri = uri;
 		mSeekBar = seekBar;
 		mPlayButton = playBtn;
@@ -193,15 +209,17 @@ public class AudioWife {
 
 		mHandler = new Handler();
 
-		initPlayer(ctx);
+		mAudioWife.initPlayer(ctx);
 
-		initMediaSeekBar();
+		mAudioWife.initMediaSeekBar();
+		
+		return mAudioWife;
 	}
 
 	/****
 	 * Initialize and prepare the audio player
 	 ****/
-	private static void initPlayer(Context ctx) {
+	private void initPlayer(Context ctx) {
 
 		mMediaPlayer = new MediaPlayer();
 		mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
@@ -244,7 +262,7 @@ public class AudioWife {
 				});
 	}
 
-	private static void initMediaSeekBar() {
+	private void initMediaSeekBar() {
 
 		// update seekbar
 		long finalTime = mMediaPlayer.getDuration();
@@ -278,7 +296,7 @@ public class AudioWife {
 	 * calling {@link #play()}
 	 * </p>
 	 * */
-	public static void release() {
+	public void release() {
 
 		if (mMediaPlayer != null) {
 			mMediaPlayer.stop();
