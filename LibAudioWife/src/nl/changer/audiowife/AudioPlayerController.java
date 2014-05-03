@@ -12,11 +12,6 @@ import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-/****
- * Reference
- * http://www.tutorialspoint.com/android/android_mediaplayer.htm
- * ***/
-
 public class AudioPlayerController {
 	
 	/****
@@ -24,7 +19,7 @@ public class AudioPlayerController {
 	 ****/
 	private static final int AUDIO_PROGRESS_UPDATE_TIME = 100;
 	
-	private static Handler mHandler;
+	private static Handler mHandler = new Handler();;
 	
 	private static int mCurrentPlayTime = 0;
 	private static SeekBar mSeekBar;
@@ -32,7 +27,7 @@ public class AudioPlayerController {
 	private static View mPlayButton;
 	private static View mPauseButton;
 
-	private static MediaPlayer mMediaPlayer;
+	private static MediaPlayer mMediaPlayer = new MediaPlayer();;
 	/***
 	 * Maybe audio uri
 	 ****/
@@ -43,8 +38,6 @@ public class AudioPlayerController {
 		if(mPlayButton != null) mPlayButton.setVisibility(View.GONE);
 		if(mPauseButton != null) mPauseButton.setVisibility(View.VISIBLE);
 		
-		mMediaPlayer = new MediaPlayer();
-		mHandler = new Handler();
 		mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         
         try {
@@ -132,7 +125,7 @@ public class AudioPlayerController {
 	    	  
 	    	  mSeekBar.setProgress((int) currentTime);
 	         
-	    	  if(mHandler != null)
+	    	  if(mHandler != null && mMediaPlayer.isPlaying() )
 	    		  mHandler.postDelayed(this, AUDIO_PROGRESS_UPDATE_TIME);
 	      }
 	};
