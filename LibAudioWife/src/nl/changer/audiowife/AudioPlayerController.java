@@ -15,16 +15,12 @@ import android.widget.TextView;
 public class AudioPlayerController {
 
 	/****
-	 * in millis
+	 * Playback progress update time in milliseconds
 	 ****/
 	private static final int AUDIO_PROGRESS_UPDATE_TIME = 100;
 
-	private static Handler mHandler = new Handler();;
-
-	/***
-	 * Initially the audio starts from the beginning. So initialized to 0
-	 */
-	private static int mCurrentPlayTime = 0;
+	private static Handler mHandler = new Handler();
+	
 	private static SeekBar mSeekBar;
 	private static TextView mPlaybackTime;
 	private static View mPlayButton;
@@ -55,28 +51,40 @@ public class AudioPlayerController {
 	 ****/
 	public static void play(Context ctx) {
 
+		if(mUri == null)
+			throw new IllegalStateException("Uri cannot be null. Dont forget to call init() ");
+		
+		// if release was called
+		if( mMediaPlayer == null )
+			mMediaPlayer = new MediaPlayer();
+		
 		if(mMediaPlayer.isPlaying())
 			return;
-		
-		int currentTime = mMediaPlayer.getCurrentPosition();
-		mSeekBar.setProgress((int) currentTime);
 
 		mHandler.postDelayed(mUpdateProgress, AUDIO_PROGRESS_UPDATE_TIME);
-
-		mMediaPlayer.seekTo(mCurrentPlayTime);
 
 		mMediaPlayer.start();
 
 		setPausable();
 	}
+	
+	/***
+	 * Pause the audio being played. 
+	 * Calling this method has no effect if the audio is already paused*/
+	public static void pause() {
+		
+		if(mMediaPlayer.isPlaying()) {
+			mMediaPlayer.pause();
+			setPlayable();	
+		}
+	}
 
-	protected static void updatePlaytime(int currentTime) {
+	private static void updatePlaytime(int currentTime) {
 		long totalDuration = 0;
 
 		if (mMediaPlayer != null) {
 			try {
 				totalDuration = mMediaPlayer.getDuration();
-				// currentTime = mMediaPlayer.getCurrentPosition();
 			} catch (IllegalStateException e) {
 				e.printStackTrace();
 			} catch (Exception e) {
@@ -111,18 +119,6 @@ public class AudioPlayerController {
 		mPlaybackTime.setText(playbackStr);
 
 		// DebugLog.i(currentTime + " / " + totalDuration);
-	}
-
-	/***
-	 * Pause the audio being played. 
-	 * Calling this method has no effect if the audio is already paused*/
-	public static void pause() {
-		
-		if(mMediaPlayer.isPlaying()) {
-			mMediaPlayer.pause();
-			mCurrentPlayTime = mSeekBar.getProgress();
-			setPlayable();	
-		}
 	}
 
 	private static void setPlayable() {
@@ -195,9 +191,9 @@ public class AudioPlayerController {
 					public void onCompletion(MediaPlayer mp) {
 						// set UI when audio finished playing
 						DebugLog.i("Finished playing audio");
-						mCurrentPlayTime = 0;
-						mSeekBar.setProgress((int) mCurrentPlayTime);
-						updatePlaytime(mCurrentPlayTime);
+						int currentPlayTime = 0;
+						mSeekBar.setProgress((int) currentPlayTime);
+						updatePlaytime(currentPlayTime);
 						setPlayable();
 					}
 				});
