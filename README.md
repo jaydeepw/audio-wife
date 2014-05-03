@@ -9,7 +9,9 @@ Play button, Pause button, Seekbar to AudioWife and rest is taken care of.
 Credits
 ==========
 
-[Android MediaPlayer](http://www.tutorialspoint.com/android/android_mediaplayer.htm)
+[Android MediaPlayer](http://developer.android.com/reference/android/media/MediaPlayer.html)
+
+[Android MediaPlayer Tutorial](http://www.tutorialspoint.com/android/android_mediaplayer.htm)
 
 
 Why this project?
