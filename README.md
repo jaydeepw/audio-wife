@@ -21,6 +21,9 @@ Getting started
 
 Why the name 'AudioWife'?
 =========================
+This relates with yet another Android AudioRecorder library project that is coming soon. 
+So thought of it as analogous to a married couple where A wife is an active Player, hence AudioWife
+for AudioPlayer and husband being a listener, hence AudioHusband for Audio Recorder.
 
 
 Contributing
