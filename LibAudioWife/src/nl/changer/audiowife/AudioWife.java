@@ -36,6 +36,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -193,8 +194,7 @@ public class AudioWife {
 	 * @param uri
 	 *            Uri of the audio to be played.
 	 ****/
-	public AudioWife init(Context ctx, Uri uri, View pauseBtn,
-			TextView playTime) {
+	public AudioWife init(Context ctx, Uri uri, TextView playTime) {
 
 		if (uri == null)
 			throw new IllegalArgumentException("Uri cannot be null");
@@ -203,8 +203,7 @@ public class AudioWife {
 			mAudioWife = new AudioWife();
 
 		mUri = uri;
-		
-		mPauseButton = pauseBtn;
+
 		mPlaybackTime = playTime;
 
 		mHandler = new Handler();
@@ -213,13 +212,20 @@ public class AudioWife {
 
 		return this;
 	}
-	
+
 	/***
-	 * You can set {@link Button} or an {@link ImageView}
-	 * as Play control
+	 * You can set {@link Button} or an {@link ImageView} as Play control
 	 ****/
 	public AudioWife setPlayView(View play) {
 		mPlayButton = play;
+		return this;
+	}
+
+	/***
+	 * You can set {@link Button} or an {@link ImageView} as the Pause control
+	 ****/
+	public AudioWife setPauseView(View pause) {
+		mPauseButton = pause;
 		return this;
 	}
 
