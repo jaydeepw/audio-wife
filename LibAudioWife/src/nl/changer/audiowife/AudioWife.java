@@ -50,15 +50,14 @@ public class AudioWife {
 	 ****/
 	private static final int AUDIO_PROGRESS_UPDATE_TIME = 100;
 
-	private static Handler mHandler = new Handler();
+	private static Handler mHandler;
+	
+	private static MediaPlayer mMediaPlayer;
 
 	private static SeekBar mSeekBar;
 	private static TextView mPlaybackTime;
 	private static View mPlayButton;
 	private static View mPauseButton;
-
-	private static MediaPlayer mMediaPlayer = new MediaPlayer();
-	
 	
 	/***
 	 * Audio URI
@@ -83,15 +82,15 @@ public class AudioWife {
 	 * Start playing the audio. Calling this method if the already playing audio,
 	 * has no effect.
 	 ****/
-	public static void play(Context ctx) {
+	public static void play() {
 
 		if (mUri == null)
 			throw new IllegalStateException(
-					"Uri cannot be null. Dont forget to call init() before calling this method");
-
-		// if release was called
-		if (mMediaPlayer == null)
-			mMediaPlayer = new MediaPlayer();
+					"Uri cannot be null. Call init() before calling play()");
+		
+		if (mMediaPlayer== null)
+			throw new IllegalStateException(
+					"Call init() before calling play()");
 
 		if (mMediaPlayer.isPlaying())
 			return;
@@ -189,6 +188,8 @@ public class AudioWife {
 		mPauseButton = pauseBtn;
 		mPlaybackTime = playTime;
 
+		mHandler = new Handler();
+		
 		initPlayer(ctx);
 
 		initMediaSeekBar();
@@ -198,6 +199,8 @@ public class AudioWife {
 	 * Initialize and prepare the audio player
 	 ****/
 	private static void initPlayer(Context ctx) {
+		
+		mMediaPlayer = new MediaPlayer();
 		mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
 
 		try {
@@ -264,7 +267,13 @@ public class AudioWife {
 		});
 	}
 
-	/***Release the allocated resources*/
+	/***Releases the allocated resources.
+	 * 
+	 * <p>
+	 * Call {@link #init(Context, Uri, SeekBar, View, View, TextView)} before
+	 * calling {@link #play()}
+	 * </p>
+	 * */
 	public static void release() {
 
 		if (mMediaPlayer != null) {

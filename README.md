@@ -1,7 +1,8 @@
 Audio Wife
 ==========
 
-A simple themable audio player library for Android.
+A simple themable audio player library for Android. Lets you have an Audio Controller
+for your Audio Player UI.
 
 
 Credits
