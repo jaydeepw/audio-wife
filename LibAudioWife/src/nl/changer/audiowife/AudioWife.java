@@ -94,7 +94,7 @@ public class AudioWife {
 	};
 
 	/***
-	 * Start playing the audio. Calling this method if the audio is already playing
+	 * Start playing the audio. Calling this method, if the audio is already playing,
 	 * has no effect.
 	 ****/
 	public void play() {
@@ -221,6 +221,7 @@ public class AudioWife {
 
 	/***
 	 * You can set {@link Button} or an {@link ImageView} as the Pause control
+	 * Pause playback functionality will be unavailable if this method is not called.
 	 ****/
 	public AudioWife setPauseView(View pause) {
 		mPauseButton = pause;
