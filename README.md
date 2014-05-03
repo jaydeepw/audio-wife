@@ -1,7 +1,7 @@
 Audio Wife
 ==========
 
-A simple skinnable audio player library for Android.
+A simple themable audio player library for Android.
 
 
 Credits
@@ -12,7 +12,10 @@ Credits
 
 Why this project?
 ====================
-1. Native audio player wrapper
+1. A simple native audio player API wrapper
+2. Others found were complex & not able to embed.
+3. Some even involved compilation using NDK
+4. 
 
 
 Getting started
@@ -22,8 +25,8 @@ Getting started
 Why the name 'AudioWife'?
 =========================
 This relates with yet another Android AudioRecorder library project that is coming soon. 
-So thought of it as analogous to a married couple where A wife is an active Player, hence AudioWife
-for AudioPlayer and husband being a listener, hence AudioHusband for Audio Recorder.
+So thought of it as analogous to a married couple where the wife is an active Player, hence AudioWife
+for Audio Player and husband being a listener, hence AudioHusband for Audio Recorder.
 
 
 Contributing

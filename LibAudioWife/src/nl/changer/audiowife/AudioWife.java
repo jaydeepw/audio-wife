@@ -38,27 +38,28 @@ import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-
 /***
  * A simple audio player wrapper for Android
  ***/
 public class AudioWife {
 
 	private static final String TAG = AudioWife.class.getSimpleName();
-	
+
 	/****
 	 * Playback progress update time in milliseconds
 	 ****/
 	private static final int AUDIO_PROGRESS_UPDATE_TIME = 100;
 
 	private static Handler mHandler = new Handler();
-	
+
 	private static SeekBar mSeekBar;
 	private static TextView mPlaybackTime;
 	private static View mPlayButton;
 	private static View mPauseButton;
 
-	private static MediaPlayer mMediaPlayer = new MediaPlayer();;
+	private static MediaPlayer mMediaPlayer = new MediaPlayer();
+	
+	
 	/***
 	 * Audio URI
 	 ****/
@@ -79,18 +80,20 @@ public class AudioWife {
 	};
 
 	/***
-	 * Start playing the audio. Calling this method if the alredy playing audio, has no effect
+	 * Start playing the audio. Calling this method if the already playing audio,
+	 * has no effect.
 	 ****/
 	public static void play(Context ctx) {
 
-		if(mUri == null)
-			throw new IllegalStateException("Uri cannot be null. Dont forget to call init() ");
-		
+		if (mUri == null)
+			throw new IllegalStateException(
+					"Uri cannot be null. Dont forget to call init() before calling this method");
+
 		// if release was called
-		if( mMediaPlayer == null )
+		if (mMediaPlayer == null)
 			mMediaPlayer = new MediaPlayer();
-		
-		if(mMediaPlayer.isPlaying())
+
+		if (mMediaPlayer.isPlaying())
 			return;
 
 		mHandler.postDelayed(mUpdateProgress, AUDIO_PROGRESS_UPDATE_TIME);
@@ -99,15 +102,16 @@ public class AudioWife {
 
 		setPausable();
 	}
-	
+
 	/***
-	 * Pause the audio being played. 
-	 * Calling this method has no effect if the audio is already paused*/
+	 * Pause the audio being played. Calling this method has no effect if the
+	 * audio is already paused
+	 */
 	public static void pause() {
-		
-		if(mMediaPlayer.isPlaying()) {
+
+		if (mMediaPlayer.isPlaying()) {
 			mMediaPlayer.pause();
-			setPlayable();	
+			setPlayable();
 		}
 	}
 
@@ -169,12 +173,13 @@ public class AudioWife {
 	}
 
 	/***
-	 * Initialize the audio player.
-	 * This method should be the first one to be called before starting to
-	 * play audio using {@link AudioWife}
+	 * Initialize the audio player. This method should be the first one to be
+	 * called before starting to play audio using {@link AudioWife}
 	 * 
-	 * @param ctx {@link Activity} Context
-	 * @param uri Uri of the audio to be played.
+	 * @param ctx
+	 *            {@link Activity} Context
+	 * @param uri
+	 *            Uri of the audio to be played.
 	 ****/
 	public static void init(Context ctx, Uri uri, SeekBar seekBar,
 			View playBtn, View pauseBtn, TextView playTime) {
@@ -218,7 +223,7 @@ public class AudioWife {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		mMediaPlayer
 				.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
 
@@ -259,6 +264,7 @@ public class AudioWife {
 		});
 	}
 
+	/***Release the allocated resources*/
 	public static void release() {
 
 		if (mMediaPlayer != null) {
