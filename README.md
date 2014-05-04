@@ -3,7 +3,7 @@ Audio Wife
 
 A simple themable audio player library for Android. Helps you have an Audio Controller
 for your Audio Player UI. Have your own UI and pass the instance of UI controls like
-Play button, Pause button, Seekbar to AudioWife and rest is taken care of.
+Play button, Pause button, Seekbar etc to AudioWife and rest is taken care of.
 
 ![Audio Player Paused](images/paused.JPG)
 
@@ -17,15 +17,15 @@ Why this project?
 3. Some even involved compilation using Android NDK
 
 
-Including In Your Project
+Including in your project
 =========================
 
-Audio Wife is presented as an [Android library project][7].
+AudioWife is presented as an [Android library project][7].
 
 You can include this project by [referencing it as a library project][8] in
 Eclipse or ant.
 
-This project has no dependencies.
+This project has NO DEPENDENCIES.
 
 
 Getting started
@@ -41,6 +41,8 @@ Button mPauseMedia = (Button) yourAudioPlayerView.findViewById(R.id.pause);
 SeekBar mMediaSeekBar = (SeekBar) yourAudioPlayerView.findViewById(R.id.mediaSeekBar);
 TextView mPlaybackTime = (TextView) yourAudioPlayerView.findViewById(R.id.playback_time);
 
+// initialize AudioWife
+// and play
 AudioWife.getInstance()
 		.init(mContext, mUri)
 		.setPlayView(mPlayMedia)
@@ -48,6 +50,13 @@ AudioWife.getInstance()
 		.setSeekBar(mMediaSeekBar)
 		.setPlaytime(mPlaybackTime)
 		.play();
+
+// to pause
+AudioWife.getInstance().pause();
+
+// when done playing, release the resources
+AudioWife.getInstance().release();
+
 ```
 
 Why the name 'AudioWife'?
