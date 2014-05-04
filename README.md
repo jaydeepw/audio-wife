@@ -20,9 +20,9 @@ Why this project?
 Including in your project
 =========================
 
-AudioWife is presented as an [Android library project][7].
+AudioWife is presented as an [Android library project][1].
 
-You can include this project by [referencing it as a library project][8] in
+You can include this project by [referencing it as a library project][2] in
 Eclipse or ant.
 
 This project has NO DEPENDENCIES.
@@ -114,14 +114,5 @@ License
 	SOFTWARE.
 
 
-
-[1]: https://github.com/pakerfeldt
-[2]: http://developer.android.com/sdk/compatibility-library.html
-[3]: http://actionbarsherlock.com
-[4]: https://github.com/pakerfeldt/android-viewflow
-[5]: https://github.com/franciscojunior
-[6]: https://gist.github.com/1122947
-[7]: http://developer.android.com/guide/developing/projects/projects-eclipse.html
-[8]: http://developer.android.com/guide/developing/projects/projects-eclipse.html#ReferencingLibraryProject
-[9]: https://raw.github.com/JakeWharton/Android-ViewPagerIndicator/master/sample/screens.png
-[10]: https://play.google.com/store/apps/details?id=com.viewpagerindicator.sample
+[1]: http://developer.android.com/guide/developing/projects/projects-eclipse.html
+[2]: http://developer.android.com/guide/developing/projects/projects-eclipse.html#ReferencingLibraryProject
