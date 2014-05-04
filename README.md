@@ -5,18 +5,9 @@ A simple themable audio player library for Android. Helps you have an Audio Cont
 for your Audio Player UI. Have your own UI and pass the instance of UI controls like
 Play button, Pause button, Seekbar to AudioWife and rest is taken care of.
 
-
-![Audio Player Playing](images/playing.JPG)
-
 ![Audio Player Paused](images/paused.JPG)
 
-
-Credits
-==========
-
-[Android MediaPlayer](http://developer.android.com/reference/android/media/MediaPlayer.html)
-
-[Android MediaPlayer Tutorial](http://www.tutorialspoint.com/android/android_mediaplayer.htm)
+![Audio Player Playing](images/playing.JPG)
 
 
 Why this project?
@@ -24,6 +15,17 @@ Why this project?
 1. A simple native audio player API wrapper
 2. Others found were complex & provided no way to be embed as library
 3. Some even involved compilation using Android NDK
+
+
+Including In Your Project
+=========================
+
+Audio Wife is presented as an [Android library project][7].
+
+You can include this project by [referencing it as a library project][8] in
+Eclipse or ant.
+
+This project has no dependencies.
 
 
 Getting started
@@ -62,3 +64,55 @@ Please fork this repository and contribute back using
 [pull requests](https://github.com/jaydeepw/audio-wife/pulls).
 
 Please follow Android coding [style guide](https://source.android.com/source/code-style.html)
+
+
+Developed By
+============
+
+ * Jaydeep Wagh - <jaydeep.w@gmail.com>
+
+Credits
+==========
+
+[Official Android MediaPlayer Dev Docs](http://developer.android.com/reference/android/media/MediaPlayer.html)
+
+[Android MediaPlayer Tutorial](http://www.tutorialspoint.com/android/android_mediaplayer.htm)
+
+
+License
+=======
+
+	The MIT License (MIT)
+
+	Copyright (c) 2014 Jaydeep
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+
+
+
+[1]: https://github.com/pakerfeldt
+[2]: http://developer.android.com/sdk/compatibility-library.html
+[3]: http://actionbarsherlock.com
+[4]: https://github.com/pakerfeldt/android-viewflow
+[5]: https://github.com/franciscojunior
+[6]: https://gist.github.com/1122947
+[7]: http://developer.android.com/guide/developing/projects/projects-eclipse.html
+[8]: http://developer.android.com/guide/developing/projects/projects-eclipse.html#ReferencingLibraryProject
+[9]: https://raw.github.com/JakeWharton/Android-ViewPagerIndicator/master/sample/screens.png
+[10]: https://play.google.com/store/apps/details?id=com.viewpagerindicator.sample
