@@ -6,6 +6,10 @@ for your Audio Player UI. Have your own UI and pass the instance of UI controls 
 Play button, Pause button, Seekbar to AudioWife and rest is taken care of.
 
 
+![Audio Player Playing](images/playing.JPG)
+![Audio Player Paused](images/paused.JPG)
+
+
 Credits
 ==========
 
