@@ -54,9 +54,16 @@ AudioWife.getInstance()
 // to pause
 AudioWife.getInstance().pause();
 
+
 // when done playing, release the resources
 AudioWife.getInstance().release();
 
+```
+
+Permission required to play audio
+
+```xml
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 ```
 
 Why the name 'AudioWife'?
