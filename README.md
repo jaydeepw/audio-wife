@@ -68,10 +68,9 @@ Permission required to play audio
 
 Why the name 'AudioWife'?
 =========================
-This relates with yet another Android AudioRecorder library project that is coming soon. 
-So thought of it as analogous to a married couple where the wife is an active Player, hence AudioWife
-for Audio Player and husband being a Listener, hence AudioHusband for Audio Recorder.
-
+This relates with another Android AudioRecorder library project that is coming soon. 
+The name AudioWife comes from an analogy of a married couple where the wife is an active Player, hence AudioWife
+for Audio Player and husband being a Listener hence AudioHusband for Audio Recorder.
 
 Contributing
 =========================

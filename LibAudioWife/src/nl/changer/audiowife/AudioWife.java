@@ -25,15 +25,18 @@
 package nl.changer.audiowife;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import android.app.Activity;
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnCompletionListener;
 import android.net.Uri;
 import android.os.Handler;
 import android.util.Log;
+import android.util.MonthDisplayHelper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -66,6 +69,11 @@ public class AudioWife {
 	private View mPlayButton;
 	private View mPauseButton;
 
+	/****
+	 * Array to hold custom completion listeners
+	 ****/
+	private ArrayList<OnCompletionListener> mCompletionListeners = new ArrayList<MediaPlayer.OnCompletionListener>();
+	
 	/***
 	 * Audio URI
 	 ****/
@@ -242,6 +250,19 @@ public class AudioWife {
 		initMediaSeekBar();
 		return this;
 	}
+	
+	/****
+	 * Add custom Recorder completion listener.
+	Adding multiple listeners will queue up all the listners and fire them
+	on media playback completes.*/
+	public AudioWife addOnCompletionListener(MediaPlayer.OnCompletionListener listener) {
+		
+		mCompletionListeners.add(listener);
+		
+		return this;
+	}
+	
+	
 
 	/****
 	 * Initialize and prepare the audio player
@@ -276,18 +297,25 @@ public class AudioWife {
 		}
 
 		mMediaPlayer
-				.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-
-					@Override
-					public void onCompletion(MediaPlayer mp) {
-						// set UI when audio finished playing
-						int currentPlayTime = 0;
-						mSeekBar.setProgress((int) currentPlayTime);
-						updatePlaytime(currentPlayTime);
-						setPlayable();
-					}
-				});
+				.setOnCompletionListener(mOnCompletion);
 	}
+	
+	private MediaPlayer.OnCompletionListener mOnCompletion = new MediaPlayer.OnCompletionListener() {
+
+		@Override
+		public void onCompletion(MediaPlayer mp) {
+			// set UI when audio finished playing
+			int currentPlayTime = 0;
+			mSeekBar.setProgress((int) currentPlayTime);
+			updatePlaytime(currentPlayTime);
+			setPlayable();
+			// ensure that our completion listener fires first.
+			// This will provide the developer to over-ride our
+			// completion listener functionality
+			
+			fireCustomCompletionListeners(mp);
+		}
+	};
 
 	private void initMediaSeekBar() {
 
@@ -313,6 +341,12 @@ public class AudioWife {
 
 			}
 		});
+	}
+
+	private void fireCustomCompletionListeners(MediaPlayer mp) {
+		for (OnCompletionListener listener : mCompletionListeners) {
+			listener.onCompletion(mp);
+		}
 	}
 
 	/***
