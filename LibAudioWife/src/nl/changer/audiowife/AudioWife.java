@@ -73,6 +73,8 @@ public class AudioWife {
 	 * Array to hold custom completion listeners
 	 ****/
 	private ArrayList<OnCompletionListener> mCompletionListeners = new ArrayList<MediaPlayer.OnCompletionListener>();
+	
+	private ArrayList<View.OnClickListener> mPlayListeners = new ArrayList<View.OnClickListener>();
 
 	/***
 	 * Audio URI
@@ -224,6 +226,7 @@ public class AudioWife {
 	 ****/
 	public AudioWife setPlayView(View play) {
 		mPlayButton = play;
+		
 		initOnPlayClick();
 		return this;
 	}
@@ -232,11 +235,23 @@ public class AudioWife {
 		if(mPlayButton == null)
 			throw new NullPointerException("Play view cannot be null");
 		
-		mPlayButton.setOnClickListener( new View.OnClickListener() {
+		mPlayListeners.add(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				play();
+			}
+		});
+		
+		// Fire all the attached listeners
+		// when the play button is actually clicked
+		mPlayButton.setOnClickListener( new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				for (View.OnClickListener listener : mPlayListeners) {
+					listener.onClick(v);
+				}
 			}
 		});
 	}
@@ -248,7 +263,6 @@ public class AudioWife {
 	 ****/
 	public AudioWife setPauseView(View pause) {
 		mPauseButton = pause;
-		
 		return this;
 	}
 
@@ -278,6 +292,18 @@ public class AudioWife {
 			MediaPlayer.OnCompletionListener listener) {
 
 		mCompletionListeners.add(listener);
+
+		return this;
+	}
+	
+	/****
+	 * Add custom play button click listener. Adding multiple listeners will
+	 * queue up all the listners and fire them all together when the event occurs.
+	 */
+	public AudioWife addOnPlayClickListener(
+			View.OnClickListener listener) {
+
+		mPlayListeners.add(listener);
 
 		return this;
 	}
