@@ -91,8 +91,8 @@ public class MainActivity extends FragmentActivity {
 
 				AudioWife.getInstance().init(MainActivity.this, uri)
 						.setPlayView(mPlayMedia).setPauseView(mPauseMedia)
-						.setSeekBar(mMediaSeekBar).setPlaytime(mPlaybackTime)
-						.play();
+						.setSeekBar(mMediaSeekBar).setPlaytime(mPlaybackTime);
+						// .play();
 			}
 		} else {
 			Log.w(TAG, "Audio file not picked up");

@@ -73,7 +73,7 @@ public class AudioWife {
 	 * Array to hold custom completion listeners
 	 ****/
 	private ArrayList<OnCompletionListener> mCompletionListeners = new ArrayList<MediaPlayer.OnCompletionListener>();
-	
+
 	/***
 	 * Audio URI
 	 ****/
@@ -102,8 +102,8 @@ public class AudioWife {
 	};
 
 	/***
-	 * Start playing the audio. Calling this method, if the audio is already playing,
-	 * has no effect.
+	 * Start playing the audio. Calling this method, if the audio is already
+	 * playing, has no effect.
 	 ****/
 	public void play() {
 
@@ -224,24 +224,43 @@ public class AudioWife {
 	 ****/
 	public AudioWife setPlayView(View play) {
 		mPlayButton = play;
+		initOnPlayClick();
 		return this;
+	}
+
+	private void initOnPlayClick() {
+		if(mPlayButton == null)
+			throw new NullPointerException("Play view cannot be null");
+		
+		mPlayButton.setOnClickListener( new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				play();
+			}
+		});
 	}
 
 	/***
 	 * You can set {@link Button} or an {@link ImageView} as the Pause control
-	 * Pause playback functionality will be unavailable if this method is not called.
+	 * Pause playback functionality will be unavailable if this method is not
+	 * called.
 	 ****/
 	public AudioWife setPauseView(View pause) {
 		mPauseButton = pause;
+		
 		return this;
 	}
-	
+
 	/***
-	 * Set current playback time. 
-	 * Use this if you have a playback time counter in the UI.
+	 * Set current playback time. Use this if you have a playback time counter
+	 * in the UI.
 	 ****/
 	public AudioWife setPlaytime(TextView playTime) {
 		mPlaybackTime = playTime;
+		
+		// initialize the playtime to 0
+		updatePlaytime(0);
 		return this;
 	}
 
@@ -250,19 +269,18 @@ public class AudioWife {
 		initMediaSeekBar();
 		return this;
 	}
-	
+
 	/****
-	 * Add custom Recorder completion listener.
-	Adding multiple listeners will queue up all the listners and fire them
-	on media playback completes.*/
-	public AudioWife addOnCompletionListener(MediaPlayer.OnCompletionListener listener) {
-		
+	 * Add custom record completion listener. Adding multiple listeners will
+	 * queue up all the listners and fire them on media playback completes.
+	 */
+	public AudioWife addOnCompletionListener(
+			MediaPlayer.OnCompletionListener listener) {
+
 		mCompletionListeners.add(listener);
-		
+
 		return this;
 	}
-	
-	
 
 	/****
 	 * Initialize and prepare the audio player
@@ -296,10 +314,9 @@ public class AudioWife {
 			e.printStackTrace();
 		}
 
-		mMediaPlayer
-				.setOnCompletionListener(mOnCompletion);
+		mMediaPlayer.setOnCompletionListener(mOnCompletion);
 	}
-	
+
 	private MediaPlayer.OnCompletionListener mOnCompletion = new MediaPlayer.OnCompletionListener() {
 
 		@Override
@@ -312,7 +329,7 @@ public class AudioWife {
 			// ensure that our completion listener fires first.
 			// This will provide the developer to over-ride our
 			// completion listener functionality
-			
+
 			fireCustomCompletionListeners(mp);
 		}
 	};
@@ -322,6 +339,8 @@ public class AudioWife {
 		// update seekbar
 		long finalTime = mMediaPlayer.getDuration();
 		mSeekBar.setMax((int) finalTime);
+		
+		mSeekBar.setProgress(0);
 
 		mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
