@@ -61,6 +61,40 @@ Permission required to play audio
 <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 ```
 
+##Add custom listeners
+
+To extend the capabilities of AudioWife, custom click listeners can be attached.
+Refer to source documentation for more details.
+
+```java
+		AudioWife.getInstance().addOnCompletionListener( new MediaPlayer.OnCompletionListener() {
+					
+			@Override
+			public void onCompletion(MediaPlayer mp) {
+				Toast.makeText(getBaseContext(), "Completed", Toast.LENGTH_SHORT).show();
+				// do you stuff.
+			}
+		});
+		
+		AudioWife.getInstance().addOnPlayClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Toast.makeText(getBaseContext(), "Play", Toast.LENGTH_SHORT).show();
+				// get-set-go. Lets dance.
+			}
+		});
+		
+		AudioWife.getInstance().addOnPauseClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Toast.makeText(getBaseContext(), "Pause", Toast.LENGTH_SHORT).show();
+				// Your on audio pause stuff.
+			}
+		});
+```
+
 Why the name 'AudioWife'?
 =========================
 This relates with another Android AudioRecorder library project that is coming soon. 

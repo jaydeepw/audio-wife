@@ -89,6 +89,7 @@ public class MainActivity extends FragmentActivity {
 					@Override
 					public void onCompletion(MediaPlayer mp) {
 						Toast.makeText(getBaseContext(), "Completed", Toast.LENGTH_SHORT).show();
+						// do you stuff.
 					}
 				});
 				
@@ -97,6 +98,7 @@ public class MainActivity extends FragmentActivity {
 					@Override
 					public void onClick(View v) {
 						Toast.makeText(getBaseContext(), "Play", Toast.LENGTH_SHORT).show();
+						// get-set-go. Lets dance.
 					}
 				});
 				
@@ -105,6 +107,7 @@ public class MainActivity extends FragmentActivity {
 					@Override
 					public void onClick(View v) {
 						Toast.makeText(getBaseContext(), "Pause", Toast.LENGTH_SHORT).show();
+						// Your on audio pause stuff.
 					}
 				});
 			}
