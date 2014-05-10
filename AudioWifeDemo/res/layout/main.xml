@@ -41,7 +41,7 @@
             android:paddingTop="5dp" >
 
             <SeekBar
-                android:id="@+id/mediaSeekBar"
+                android:id="@+id/media_seekbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"

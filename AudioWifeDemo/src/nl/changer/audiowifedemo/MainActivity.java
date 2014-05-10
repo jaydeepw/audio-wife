@@ -41,10 +41,10 @@ public class MainActivity extends FragmentActivity {
 			}
 		});
 
-		// initialize the player contols
+		// initialize the player controls
 		mPlayMedia = findViewById(R.id.play);
 		mPauseMedia = findViewById(R.id.pause);
-		mMediaSeekBar = (SeekBar) findViewById(R.id.mediaSeekBar);
+		mMediaSeekBar = (SeekBar) findViewById(R.id.media_seekbar);
 		mPlaybackTime = (TextView) findViewById(R.id.playback_time);
 
 		mPlayMedia.setOnClickListener(new View.OnClickListener() {
