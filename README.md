@@ -1,21 +1,26 @@
 Index
 ==================
+
 [Introduction](https://github.com/jaydeepw/audio-wife#audio-wife)
+
 [Why this project?](https://github.com/jaydeepw/audio-wife#why-this-project)
+
 [Including in your project](https://github.com/jaydeepw/audio-wife#including-in-your-project)
+
 [Getting started](https://github.com/jaydeepw/audio-wife#getting-started)
+
 [Add custom listeners](https://github.com/jaydeepw/audio-wife#add-custom-listeners)
+
 [Why the name 'AudioWife'?](https://github.com/jaydeepw/audio-wife#why-the-name-audiowife)
+
 [Contributing](https://github.com/jaydeepw/audio-wife#contributing)
+
 [Developed by](https://github.com/jaydeepw/audio-wife#developed-by)
+
 [Credits](https://github.com/jaydeepw/audio-wife#credits)
+
 [License](https://github.com/jaydeepw/audio-wife#license)
 
-
-[Stable Versions](https://github.com/changer/forge/wiki/Module-Documentation#wiki-stable-versions)
-
-**API Methods**
-* [addMessage](https://github.com/changer/forge/wiki/Module-Documentation#addmessage)
 
 
 Audio Wife - Introduction
