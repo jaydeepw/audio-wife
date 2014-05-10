@@ -93,43 +93,6 @@ To extend the capabilities of AudioWife, custom click listeners can be attached.
 Refer to source documentation for more details.
 
 ```java
-<<<<<<< HEAD
-		AudioWife.getInstance().init(MainActivity.this, uri)
-				.setPlayView(mPlayMedia)		// AudioWife takes care of click handler for play button
-				.setPauseView(mPauseMedia)		// AudioWife takes care of click handler for pause button
-				.setSeekBar(mMediaSeekBar)
-				.setPlaytime(mPlaybackTime);
-		
-		AudioWife.getInstance().addOnCompletionListener( new MediaPlayer.OnCompletionListener() {
-			
-			@Override
-			public void onCompletion(MediaPlayer mp) {
-				Toast.makeText(getBaseContext(), "Completed", Toast.LENGTH_SHORT)
-					 .show();
-				// do you stuff
-			}
-		});
-		
-		AudioWife.getInstance().addOnPlayClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				Toast.makeText(getBaseContext(), "Play", Toast.LENGTH_SHORT)
-					 .show();
-				// get-set-go. Lets dance.
-			}
-		});
-		
-		AudioWife.getInstance().addOnPauseClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				Toast.makeText(getBaseContext(), "Pause", Toast.LENGTH_SHORT)
-					 .show();
-				// Your on audio pause stuff.
-			}
-		});
-=======
 AudioWife.getInstance().init(MainActivity.this, uri)
 		.setPlayView(mPlayMedia)		// AudioWife takes care of click handler for play button
 		.setPauseView(mPauseMedia)		// AudioWife takes care of click handler for pause button
@@ -165,7 +128,6 @@ AudioWife.getInstance().addOnPauseClickListener(new View.OnClickListener() {
 		// Your on audio pause stuff.
 	}
 });
->>>>>>> 4c8df84fe2d195c99e1526de98390ba9c1932c63
 ```
 
 Why the name 'AudioWife'?
