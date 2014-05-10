@@ -30,9 +30,10 @@ for your Audio Player UI. Have your own UI and pass the instance of UI controls 
 Play button, Pause button, Seekbar etc to AudioWife and rest is taken care of.
 
 your_player.xml
-![Audio Player Paused](images/paused.JPG)
 
 ![Audio Player Playing](images/playing.JPG)
+
+![Audio Player Paused](images/paused.JPG)
 
 
 Why this project?
