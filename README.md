@@ -1,15 +1,14 @@
 Index
 ==================
 
-[Introduction](https://github.com/jaydeepw/audio-wife#audio-wife)
+* [Introduction](https://github.com/jaydeepw/audio-wife#audio-wife)
+* [Why this project?](https://github.com/jaydeepw/audio-wife#why-this-project)
 
-[Why this project?](https://github.com/jaydeepw/audio-wife#why-this-project)
+* [Including in your project](https://github.com/jaydeepw/audio-wife#including-in-your-project)
 
-[Including in your project](https://github.com/jaydeepw/audio-wife#including-in-your-project)
+* [Getting started](https://github.com/jaydeepw/audio-wife#getting-started)
 
-[Getting started](https://github.com/jaydeepw/audio-wife#getting-started)
-
-[Add custom listeners](https://github.com/jaydeepw/audio-wife#add-custom-listeners)
+* [Add custom listeners](https://github.com/jaydeepw/audio-wife#add-custom-listeners)
 
 [Why the name 'AudioWife'?](https://github.com/jaydeepw/audio-wife#why-the-name-audiowife)
 
