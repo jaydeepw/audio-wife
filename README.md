@@ -1,7 +1,7 @@
 Index
 ==================
 
-* [Introduction](https://github.com/jaydeepw/audio-wife#audio-wife)
+* [Introduction](https://github.com/jaydeepw/audio-wife#audio-wife---introduction)
 * [Why this project?](https://github.com/jaydeepw/audio-wife#why-this-project)
 
 * [Including in your own project](https://github.com/jaydeepw/audio-wife#including-in-your-project)
