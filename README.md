@@ -33,26 +33,21 @@ Getting started
 ====================
 ```java
 
-// inflate your audio player view or have one in the existing UI already.
-ViewGroup yourAudioPlayerView = (ViewGroup) mLayoutInflator.inflate(R.layout.playback_audio, mMediaPlayerContainer);
-
 // initialize the player contols
-Button mPlayMedia = (Button) yourAudioPlayerView.findViewById(R.id.play);
-Button mPauseMedia = (Button) yourAudioPlayerView.findViewById(R.id.pause);
-SeekBar mMediaSeekBar = (SeekBar) yourAudioPlayerView.findViewById(R.id.mediaSeekBar);
-TextView mPlaybackTime = (TextView) yourAudioPlayerView.findViewById(R.id.playback_time);
+mPlayMedia = findViewById(R.id.play);
+mPauseMedia = findViewById(R.id.pause);
+mMediaSeekBar = (SeekBar) findViewById(R.id.mediaSeekBar);
+mPlaybackTime = (TextView) findViewById(R.id.playback_time);
 
 // initialize AudioWife
-// and play
 AudioWife.getInstance()
-		.init(mContext, mUri)
-		.setPlayView(mPlayMedia)
-		.setPauseView(mPauseMedia)
+		.init(MainActivity.this, uri)
+		.setPlayView(mPlayMedia)		// AudioWife takes care of click handler for play view
+		.setPauseView(mPauseMedia)		// AudioWife takes care of click handler for pause view
 		.setSeekBar(mMediaSeekBar)
-		.setPlaytime(mPlaybackTime)
-		.play();
+		.setPlaytime(mPlaybackTime);
 
-// to pause
+// to explicitly pause
 AudioWife.getInstance().pause();
 
 
@@ -67,12 +62,54 @@ Permission required to play audio
 <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 ```
 
+##Add custom listeners
+
+To extend the capabilities of AudioWife, custom click listeners can be attached.
+Refer to source documentation for more details.
+
+```java
+		AudioWife.getInstance().init(MainActivity.this, uri)
+				.setPlayView(mPlayMedia)		// AudioWife takes care of click handler for play button
+				.setPauseView(mPauseMedia)		// AudioWife takes care of click handler for pause button
+				.setSeekBar(mMediaSeekBar)
+				.setPlaytime(mPlaybackTime);
+		
+		AudioWife.getInstance().addOnCompletionListener( new MediaPlayer.OnCompletionListener() {
+			
+			@Override
+			public void onCompletion(MediaPlayer mp) {
+				Toast.makeText(getBaseContext(), "Completed", Toast.LENGTH_SHORT)
+					 .show();
+				// do you stuff
+			}
+		});
+		
+		AudioWife.getInstance().addOnPlayClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Toast.makeText(getBaseContext(), "Play", Toast.LENGTH_SHORT)
+					 .show();
+				// get-set-go. Lets dance.
+			}
+		});
+		
+		AudioWife.getInstance().addOnPauseClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Toast.makeText(getBaseContext(), "Pause", Toast.LENGTH_SHORT)
+					 .show();
+				// Your on audio pause stuff.
+			}
+		});
+```
+
 Why the name 'AudioWife'?
 =========================
-This relates with yet another Android AudioRecorder library project that is coming soon. 
-So thought of it as analogous to a married couple where the wife is an active Player, hence AudioWife
-for Audio Player and husband being a Listener, hence AudioHusband for Audio Recorder.
-
+This relates with another Android AudioRecorder library project that is coming soon. 
+The name AudioWife comes from an analogy of a married couple where the wife is an active Player, hence AudioWife
+for Audio Player and husband being a Listener hence AudioHusband for Audio Recorder.
 
 Contributing
 =========================

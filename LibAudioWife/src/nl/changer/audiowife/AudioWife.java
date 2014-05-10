@@ -25,15 +25,18 @@
 package nl.changer.audiowife;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import android.app.Activity;
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnCompletionListener;
 import android.net.Uri;
 import android.os.Handler;
 import android.util.Log;
+import android.util.MonthDisplayHelper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -66,6 +69,15 @@ public class AudioWife {
 	private View mPlayButton;
 	private View mPauseButton;
 
+	/****
+	 * Array to hold custom completion listeners
+	 ****/
+	private ArrayList<OnCompletionListener> mCompletionListeners = new ArrayList<MediaPlayer.OnCompletionListener>();
+	
+	private ArrayList<View.OnClickListener> mPlayListeners = new ArrayList<View.OnClickListener>();
+	
+	private ArrayList<View.OnClickListener> mPauseListeners = new ArrayList<View.OnClickListener>();
+
 	/***
 	 * Audio URI
 	 ****/
@@ -94,8 +106,8 @@ public class AudioWife {
 	};
 
 	/***
-	 * Start playing the audio. Calling this method, if the audio is already playing,
-	 * has no effect.
+	 * Start playing the audio. Calling this method, if the audio is already
+	 * playing, has no effect.
 	 ****/
 	public void play() {
 
@@ -122,6 +134,9 @@ public class AudioWife {
 	 */
 	public void pause() {
 
+		if(mMediaPlayer == null)
+			return;
+		
 		if (mMediaPlayer.isPlaying()) {
 			mMediaPlayer.pause();
 			setPlayable();
@@ -216,24 +231,86 @@ public class AudioWife {
 	 ****/
 	public AudioWife setPlayView(View play) {
 		mPlayButton = play;
+		
+		initOnPlayClick();
 		return this;
+	}
+
+	private void initOnPlayClick() {
+		if(mPlayButton == null)
+			throw new NullPointerException("Play view cannot be null");
+		
+		// add default click listener to the top
+		// so that it is the one that gets fired first
+		mPlayListeners.add(0, new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				play();
+			}
+		});
+		
+		// Fire all the attached listeners
+		// when the play button is actually clicked
+		mPlayButton.setOnClickListener( new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				for (View.OnClickListener listener : mPlayListeners) {
+					listener.onClick(v);
+				}
+			}
+		});
 	}
 
 	/***
 	 * You can set {@link Button} or an {@link ImageView} as the Pause control
-	 * Pause playback functionality will be unavailable if this method is not called.
+	 * Pause playback functionality will be unavailable if this method is not
+	 * called.
 	 ****/
 	public AudioWife setPauseView(View pause) {
 		mPauseButton = pause;
+		
+		initOnPauseClick();
 		return this;
 	}
 	
+	private void initOnPauseClick() {
+		if(mPauseButton == null)
+			throw new NullPointerException("Pause view cannot be null");
+		
+		// add default click listener to the top
+		// so that it is the one that gets fired first
+		mPauseListeners.add(0, new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				pause();
+			}
+		});
+		
+		// Fire all the attached listeners
+		// when the pause button is actually clicked
+		mPauseButton.setOnClickListener( new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				for (View.OnClickListener listener : mPauseListeners) {
+					listener.onClick(v);
+				}
+			}
+		});
+	}
+
 	/***
-	 * Set current playback time. 
-	 * Use this if you have a playback time counter in the UI.
+	 * Set current playback time. Use this if you have a playback time counter
+	 * in the UI.
 	 ****/
 	public AudioWife setPlaytime(TextView playTime) {
 		mPlaybackTime = playTime;
+		
+		// initialize the playtime to 0
+		updatePlaytime(0);
 		return this;
 	}
 
@@ -243,6 +320,44 @@ public class AudioWife {
 		return this;
 	}
 
+	/****
+	 * Add custom playback completion listener. Adding multiple listeners will
+	 * queue up all the listeners and fire them on media playback completes.
+	 */
+	public AudioWife addOnCompletionListener(
+			MediaPlayer.OnCompletionListener listener) {
+		
+		// add default click listener to the top
+		// so that it is the one that gets fired first
+		mCompletionListeners.add(0 ,listener);
+
+		return this;
+	}
+	
+	/****
+	 * Add custom play view click listener. Adding multiple listeners will
+	 * queue up all the listners and fire them all together when the event occurs.
+	 */
+	public AudioWife addOnPlayClickListener(
+			View.OnClickListener listener) {
+
+		mPlayListeners.add(listener);
+
+		return this;
+	}
+
+	/****
+	 * Add custom pause view click listener. Adding multiple listeners will
+	 * queue up all the listners and fire them all together when the event occurs.
+	 */
+	public AudioWife addOnPauseClickListener(
+			View.OnClickListener listener) {
+
+		mPauseListeners.add(listener);
+
+		return this;
+	}
+	
 	/****
 	 * Initialize and prepare the audio player
 	 ****/
@@ -275,25 +390,33 @@ public class AudioWife {
 			e.printStackTrace();
 		}
 
-		mMediaPlayer
-				.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-
-					@Override
-					public void onCompletion(MediaPlayer mp) {
-						// set UI when audio finished playing
-						int currentPlayTime = 0;
-						mSeekBar.setProgress((int) currentPlayTime);
-						updatePlaytime(currentPlayTime);
-						setPlayable();
-					}
-				});
+		mMediaPlayer.setOnCompletionListener(mOnCompletion);
 	}
+
+	private MediaPlayer.OnCompletionListener mOnCompletion = new MediaPlayer.OnCompletionListener() {
+
+		@Override
+		public void onCompletion(MediaPlayer mp) {
+			// set UI when audio finished playing
+			int currentPlayTime = 0;
+			mSeekBar.setProgress((int) currentPlayTime);
+			updatePlaytime(currentPlayTime);
+			setPlayable();
+			// ensure that our completion listener fires first.
+			// This will provide the developer to over-ride our
+			// completion listener functionality
+
+			fireCustomCompletionListeners(mp);
+		}
+	};
 
 	private void initMediaSeekBar() {
 
 		// update seekbar
 		long finalTime = mMediaPlayer.getDuration();
 		mSeekBar.setMax((int) finalTime);
+		
+		mSeekBar.setProgress(0);
 
 		mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
@@ -313,6 +436,12 @@ public class AudioWife {
 
 			}
 		});
+	}
+
+	private void fireCustomCompletionListeners(MediaPlayer mp) {
+		for (OnCompletionListener listener : mCompletionListeners) {
+			listener.onCompletion(mp);
+		}
 	}
 
 	/***

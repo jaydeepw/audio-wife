@@ -3,6 +3,7 @@ package nl.changer.audiowifedemo;
 import nl.changer.audiowife.AudioWife;
 import android.app.Activity;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -51,24 +52,10 @@ public class MainActivity extends FragmentActivity {
 			@Override
 			public void onClick(View v) {
 
-				try {
-					AudioWife.getInstance().play();
-				} catch (IllegalStateException e) {
+				if (mUri == null)
 					Toast.makeText(MainActivity.this,
 							"Pick an audio file before playing",
 							Toast.LENGTH_LONG).show();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-
-			}
-		});
-
-		mPauseMedia.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				AudioWife.getInstance().pause();
 			}
 		});
 	}
@@ -89,10 +76,43 @@ public class MainActivity extends FragmentActivity {
 			if (requestCode == INTENT_PICK_AUDIO) {
 				Uri uri = intent.getData();
 
+				mUri = uri;
+
 				AudioWife.getInstance().init(MainActivity.this, uri)
-						.setPlayView(mPlayMedia).setPauseView(mPauseMedia)
-						.setSeekBar(mMediaSeekBar).setPlaytime(mPlaybackTime)
-						.play();
+						.setPlayView(mPlayMedia)		// AudioWife takes care of click handler for play button
+						.setPauseView(mPauseMedia)		// AudioWife takes care of click handler for pause button
+						.setSeekBar(mMediaSeekBar)
+						.setPlaytime(mPlaybackTime);
+				
+				AudioWife.getInstance().addOnCompletionListener( new MediaPlayer.OnCompletionListener() {
+					
+					@Override
+					public void onCompletion(MediaPlayer mp) {
+						Toast.makeText(getBaseContext(), "Completed", Toast.LENGTH_SHORT)
+							 .show();
+						// do you stuff.
+					}
+				});
+				
+				AudioWife.getInstance().addOnPlayClickListener(new View.OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						Toast.makeText(getBaseContext(), "Play", Toast.LENGTH_SHORT)
+							 .show();
+						// get-set-go. Lets dance.
+					}
+				});
+				
+				AudioWife.getInstance().addOnPauseClickListener(new View.OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						Toast.makeText(getBaseContext(), "Pause", Toast.LENGTH_SHORT)
+							 .show();
+						// Your on audio pause stuff.
+					}
+				});
 			}
 		} else {
 			Log.w(TAG, "Audio file not picked up");
@@ -105,5 +125,6 @@ public class MainActivity extends FragmentActivity {
 
 		// when done playing, release the resources
 		AudioWife.getInstance().release();
+		mUri = null;
 	}
 }
