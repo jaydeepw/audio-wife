@@ -93,11 +93,6 @@ To extend the capabilities of AudioWife, custom click listeners can be attached.
 Refer to source documentation for more details.
 
 ```java
-AudioWife.getInstance().init(MainActivity.this, uri)
-		.setPlayView(mPlayMedia)		// AudioWife takes care of click handler for play button
-		.setPauseView(mPauseMedia)		// AudioWife takes care of click handler for pause button
-		.setSeekBar(mMediaSeekBar)
-		.setPlaytime(mPlaybackTime);
 
 AudioWife.getInstance().addOnCompletionListener( new MediaPlayer.OnCompletionListener() {
 	
