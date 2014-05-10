@@ -1,4 +1,24 @@
-Audio Wife
+Index
+==================
+[Introduction](https://github.com/jaydeepw/audio-wife#audio-wife)
+[Why this project?](https://github.com/jaydeepw/audio-wife#why-this-project)
+[Including in your project](https://github.com/jaydeepw/audio-wife#including-in-your-project)
+[Getting started](https://github.com/jaydeepw/audio-wife#getting-started)
+[Add custom listeners](https://github.com/jaydeepw/audio-wife#add-custom-listeners)
+[Why the name 'AudioWife'?](https://github.com/jaydeepw/audio-wife#why-the-name-audiowife)
+[Contributing](https://github.com/jaydeepw/audio-wife#contributing)
+[Developed by](https://github.com/jaydeepw/audio-wife#developed-by)
+[Credits](https://github.com/jaydeepw/audio-wife#credits)
+[License](https://github.com/jaydeepw/audio-wife#license)
+
+
+[Stable Versions](https://github.com/changer/forge/wiki/Module-Documentation#wiki-stable-versions)
+
+**API Methods**
+* [addMessage](https://github.com/changer/forge/wiki/Module-Documentation#addmessage)
+
+
+Audio Wife - Introduction
 ==========
 
 A simple themable audio player library for Android. Helps you have an Audio Controller
@@ -33,10 +53,10 @@ Getting started
 ====================
 ```java
 
-// initialize the player contols
+// initialize the player controls
 mPlayMedia = findViewById(R.id.play);
 mPauseMedia = findViewById(R.id.pause);
-mMediaSeekBar = (SeekBar) findViewById(R.id.mediaSeekBar);
+mMediaSeekBar = (SeekBar) findViewById(R.id.media_seekbar);
 mPlaybackTime = (TextView) findViewById(R.id.playback_time);
 
 // initialize AudioWife
@@ -68,41 +88,41 @@ To extend the capabilities of AudioWife, custom click listeners can be attached.
 Refer to source documentation for more details.
 
 ```java
-		AudioWife.getInstance().init(MainActivity.this, uri)
-				.setPlayView(mPlayMedia)		// AudioWife takes care of click handler for play button
-				.setPauseView(mPauseMedia)		// AudioWife takes care of click handler for pause button
-				.setSeekBar(mMediaSeekBar)
-				.setPlaytime(mPlaybackTime);
-		
-		AudioWife.getInstance().addOnCompletionListener( new MediaPlayer.OnCompletionListener() {
-			
-			@Override
-			public void onCompletion(MediaPlayer mp) {
-				Toast.makeText(getBaseContext(), "Completed", Toast.LENGTH_SHORT)
-					 .show();
-				// do you stuff
-			}
-		});
-		
-		AudioWife.getInstance().addOnPlayClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				Toast.makeText(getBaseContext(), "Play", Toast.LENGTH_SHORT)
-					 .show();
-				// get-set-go. Lets dance.
-			}
-		});
-		
-		AudioWife.getInstance().addOnPauseClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				Toast.makeText(getBaseContext(), "Pause", Toast.LENGTH_SHORT)
-					 .show();
-				// Your on audio pause stuff.
-			}
-		});
+AudioWife.getInstance().init(MainActivity.this, uri)
+		.setPlayView(mPlayMedia)		// AudioWife takes care of click handler for play button
+		.setPauseView(mPauseMedia)		// AudioWife takes care of click handler for pause button
+		.setSeekBar(mMediaSeekBar)
+		.setPlaytime(mPlaybackTime);
+
+AudioWife.getInstance().addOnCompletionListener( new MediaPlayer.OnCompletionListener() {
+	
+	@Override
+	public void onCompletion(MediaPlayer mp) {
+		Toast.makeText(getBaseContext(), "Completed", Toast.LENGTH_SHORT)
+			 .show();
+		// do you stuff
+	}
+});
+
+AudioWife.getInstance().addOnPlayClickListener(new View.OnClickListener() {
+	
+	@Override
+	public void onClick(View v) {
+		Toast.makeText(getBaseContext(), "Play", Toast.LENGTH_SHORT)
+			 .show();
+		// get-set-go. Lets dance.
+	}
+});
+
+AudioWife.getInstance().addOnPauseClickListener(new View.OnClickListener() {
+	
+	@Override
+	public void onClick(View v) {
+		Toast.makeText(getBaseContext(), "Pause", Toast.LENGTH_SHORT)
+			 .show();
+		// Your on audio pause stuff.
+	}
+});
 ```
 
 Why the name 'AudioWife'?
