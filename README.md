@@ -10,15 +10,6 @@ Play button, Pause button, Seekbar etc to AudioWife and rest is taken care of.
 ![Audio Player Playing](images/playing.JPG)
 
 
-Index
-==================
-
-[Why this project?](https://github.com/changer/forge/wiki/Module-Documentation#wiki-stable-versions)
-
-**API Methods**
-* [addMessage](https://github.com/changer/forge/wiki/Module-Documentation#addmessage)
-
-
 Why this project?
 ====================
 1. A simple native audio player API wrapper
