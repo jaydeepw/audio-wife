@@ -32,24 +32,19 @@ Getting started
 ====================
 ```java
 
-// inflate your audio player view or have one in the existing UI already.
-ViewGroup yourAudioPlayerView = (ViewGroup) mLayoutInflator.inflate(R.layout.playback_audio, mMediaPlayerContainer);
-
 // initialize the player contols
-Button mPlayMedia = (Button) yourAudioPlayerView.findViewById(R.id.play);
-Button mPauseMedia = (Button) yourAudioPlayerView.findViewById(R.id.pause);
-SeekBar mMediaSeekBar = (SeekBar) yourAudioPlayerView.findViewById(R.id.mediaSeekBar);
-TextView mPlaybackTime = (TextView) yourAudioPlayerView.findViewById(R.id.playback_time);
+mPlayMedia = findViewById(R.id.play);
+mPauseMedia = findViewById(R.id.pause);
+mMediaSeekBar = (SeekBar) findViewById(R.id.mediaSeekBar);
+mPlaybackTime = (TextView) findViewById(R.id.playback_time);
 
 // initialize AudioWife
-// and play
 AudioWife.getInstance()
-		.init(mContext, mUri)
-		.setPlayView(mPlayMedia)
-		.setPauseView(mPauseMedia)
+		.init(MainActivity.this, uri)
+		.setPlayView(mPlayMedia)		// AudioWife takes care of click handler for play button
+		.setPauseView(mPauseMedia)		// AudioWife takes care of click handler for pause button
 		.setSeekBar(mMediaSeekBar)
-		.setPlaytime(mPlaybackTime)
-		.play();
+		.setPlaytime(mPlaybackTime);
 
 // to pause
 AudioWife.getInstance().pause();

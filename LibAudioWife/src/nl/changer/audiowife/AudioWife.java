@@ -75,6 +75,8 @@ public class AudioWife {
 	private ArrayList<OnCompletionListener> mCompletionListeners = new ArrayList<MediaPlayer.OnCompletionListener>();
 	
 	private ArrayList<View.OnClickListener> mPlayListeners = new ArrayList<View.OnClickListener>();
+	
+	private ArrayList<View.OnClickListener> mPauseListeners = new ArrayList<View.OnClickListener>();
 
 	/***
 	 * Audio URI
@@ -132,6 +134,9 @@ public class AudioWife {
 	 */
 	public void pause() {
 
+		if(mMediaPlayer == null)
+			return;
+		
 		if (mMediaPlayer.isPlaying()) {
 			mMediaPlayer.pause();
 			setPlayable();
@@ -235,7 +240,9 @@ public class AudioWife {
 		if(mPlayButton == null)
 			throw new NullPointerException("Play view cannot be null");
 		
-		mPlayListeners.add(new View.OnClickListener() {
+		// add default click listener to the top
+		// so that it is the one that gets fired first
+		mPlayListeners.add(0, new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
@@ -263,7 +270,36 @@ public class AudioWife {
 	 ****/
 	public AudioWife setPauseView(View pause) {
 		mPauseButton = pause;
+		
+		initOnPauseClick();
 		return this;
+	}
+	
+	private void initOnPauseClick() {
+		if(mPauseButton == null)
+			throw new NullPointerException("Pause view cannot be null");
+		
+		// add default click listener to the top
+		// so that it is the one that gets fired first
+		mPauseListeners.add(0, new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				pause();
+			}
+		});
+		
+		// Fire all the attached listeners
+		// when the pause button is actually clicked
+		mPauseButton.setOnClickListener( new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				for (View.OnClickListener listener : mPauseListeners) {
+					listener.onClick(v);
+				}
+			}
+		});
 	}
 
 	/***
@@ -285,19 +321,21 @@ public class AudioWife {
 	}
 
 	/****
-	 * Add custom record completion listener. Adding multiple listeners will
-	 * queue up all the listners and fire them on media playback completes.
+	 * Add custom playback completion listener. Adding multiple listeners will
+	 * queue up all the listeners and fire them on media playback completes.
 	 */
 	public AudioWife addOnCompletionListener(
 			MediaPlayer.OnCompletionListener listener) {
-
-		mCompletionListeners.add(listener);
+		
+		// add default click listener to the top
+		// so that it is the one that gets fired first
+		mCompletionListeners.add(0 ,listener);
 
 		return this;
 	}
 	
 	/****
-	 * Add custom play button click listener. Adding multiple listeners will
+	 * Add custom play view click listener. Adding multiple listeners will
 	 * queue up all the listners and fire them all together when the event occurs.
 	 */
 	public AudioWife addOnPlayClickListener(
@@ -308,6 +346,18 @@ public class AudioWife {
 		return this;
 	}
 
+	/****
+	 * Add custom pause view click listener. Adding multiple listeners will
+	 * queue up all the listners and fire them all together when the event occurs.
+	 */
+	public AudioWife addOnPauseClickListener(
+			View.OnClickListener listener) {
+
+		mPauseListeners.add(listener);
+
+		return this;
+	}
+	
 	/****
 	 * Initialize and prepare the audio player
 	 ****/
