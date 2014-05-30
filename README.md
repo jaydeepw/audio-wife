@@ -43,6 +43,12 @@ Why this project?
 3. Some even involved compilation using Android NDK
 
 
+Features
+=========
+1. Provides default UI truly making it an embeddable player.
+2. Ability to set multiple custom click handlers to play and pause buttons. 
+
+
 Including in your project
 =========================
 
