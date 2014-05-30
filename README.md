@@ -156,6 +156,9 @@ This relates with another Android AudioRecorder library project that is coming s
 The name AudioWife comes from an analogy of a married couple where the wife is an active Player, hence AudioWife
 for Audio Player and husband being a Listener hence AudioHusband for Audio Recorder.
 
+Later found that Audio Recorder Library project already exists for Android.
+You can find it [here](https://github.com/steelkiwi/AndroidRecording).
+
 Contributing
 =========================
 
