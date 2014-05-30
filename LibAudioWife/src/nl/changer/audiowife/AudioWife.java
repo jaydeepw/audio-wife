@@ -508,7 +508,7 @@ public class AudioWife {
 	 * 	<li>Playtime</li>
 	 * <ul>
 	 * <br/>
-	 * @param playerContainer View to add default player UI to.
+	 * @param playerContainer View to integrate default player UI into.
 	 ****/
 	public AudioWife useDefaultUi(ViewGroup playerContainer, LayoutInflater inflater) {
 		if(playerContainer == null)

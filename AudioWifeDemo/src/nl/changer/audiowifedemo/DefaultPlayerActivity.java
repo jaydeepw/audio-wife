@@ -65,6 +65,7 @@ public class DefaultPlayerActivity extends FragmentActivity {
 
 				mUri = uri;
 
+				// mPlayerContainer = View to integrate default player UI into.
 				AudioWife.getInstance().init(mContext, uri)
 						.useDefaultUi(mPlayerContainer, getLayoutInflater());
 				

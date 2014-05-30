@@ -25,7 +25,7 @@ Index
 Audio Wife - Introduction
 ==========
 
-A simple themable audio player library for Android. Helps you have an Audio Controller
+A simple themable & integrable audio player library for Android. Helps you have an Audio Controller
 for your Audio Player UI. Have your own UI and pass the instance of UI controls like
 Play button, Pause button, Seekbar etc to AudioWife and rest is taken care of.
 
@@ -39,13 +39,13 @@ your_player.xml
 Why this project?
 ====================
 1. A simple native audio player API wrapper
-2. Others found were complex & provided no way to be embed as library
+2. Others found were complex & provided no way to be integrate as library
 3. Some even involved compilation using Android NDK
 
 
 Features
 =========
-1. Provides default UI truly making it an embeddable player.
+1. Provides default UI truly making it an integrable player.
 2. Ability to set multiple custom click handlers to play and pause buttons.
 
 
@@ -73,11 +73,12 @@ Permission required to play audio
 ##Using default player UI
 
 AudioWife comes with a simple default player UI that you can use right away.
+This is the simplest and faster way to get AudioWife working.
 
 ```java
-
+// mPlayerContainer = View to integrate default player UI into.
 AudioWife.getInstance().init(mContext, uri)
-					   .useDefaultUi(mPlayerContainer, getLayoutInflater());
+		.useDefaultUi(mPlayerContainer, getLayoutInflater());
 
 ```
 
