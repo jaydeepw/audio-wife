@@ -71,6 +71,10 @@ public class AudioWife {
 	private View mPlayButton;
 	private View mPauseButton;
 	
+	/***
+	 * Set if AudioWife is using the default UI provided with the library.
+	 * **/
+	private boolean mHasDefaultUi;
 
 	/****
 	 * Array to hold custom completion listeners
@@ -97,6 +101,9 @@ public class AudioWife {
 	private Runnable mUpdateProgress = new Runnable() {
 		public void run() {
 
+			if(mSeekBar == null)
+				return;
+			
 			if (mHandler != null && mMediaPlayer.isPlaying()) {
 				mSeekBar.setProgress((int) mMediaPlayer.getCurrentPosition());
 				updatePlaytime(mMediaPlayer.getCurrentPosition());
@@ -241,6 +248,11 @@ public class AudioWife {
 		if(play == null)
 			throw new NullPointerException("PlayView cannot be null");
 		
+		if(mHasDefaultUi) {
+			Log.w(TAG, "Already using default UI. Setting play view will have no effect");
+			return this;
+		}
+		
 		mPlayButton = play;
 		
 		initOnPlayClick();
@@ -284,6 +296,11 @@ public class AudioWife {
 		if(pause == null)
 			throw new NullPointerException("PauseView cannot be null");
 		
+		if(mHasDefaultUi) {
+			Log.w(TAG, "Already using default UI. Setting pause view will have no effect");
+			return this;
+		}
+		
 		mPauseButton = pause;
 		
 		initOnPauseClick();
@@ -323,6 +340,11 @@ public class AudioWife {
 	 ****/
 	public AudioWife setPlaytime(TextView playTime) {
 		
+		if(mHasDefaultUi) {
+			Log.w(TAG, "Already using default UI. Setting play time will have no effect");
+			return this;
+		}
+		
 		mPlaybackTime = playTime;
 		
 		// initialize the playtime to 0
@@ -331,6 +353,11 @@ public class AudioWife {
 	}
 
 	public AudioWife setSeekBar(SeekBar seekbar) {
+		
+		if(mHasDefaultUi) {
+			Log.w(TAG, "Already using default UI. Setting seek bar will have no effect");
+			return this;
+		}
 		
 		mSeekBar = seekbar;
 		initMediaSeekBar();
@@ -483,7 +510,7 @@ public class AudioWife {
 	 * <br/>
 	 * @param playerContainer View to add default player UI to.
 	 ****/
-	public void useDefaultUi(ViewGroup playerContainer, LayoutInflater inflater) {
+	public AudioWife useDefaultUi(ViewGroup playerContainer, LayoutInflater inflater) {
 		if(playerContainer == null)
 			throw new NullPointerException("Player container cannot be null");
 		
@@ -492,7 +519,24 @@ public class AudioWife {
 		
 		View playerUi = inflater.inflate(R.layout.player, playerContainer);
 		
+		// init play view
+		View playView = playerUi.findViewById(R.id.play);
+		setPlayView(playView);
 		
+		// init pause view
+		View pauseView = playerUi.findViewById(R.id.pause);
+		setPauseView(pauseView);
+		
+		// init seekbar
+		SeekBar seekBar = (SeekBar) playerUi.findViewById(R.id.media_seekbar);
+		setSeekBar(seekBar);
+		
+		// init playback time view
+		TextView playbackTime = (TextView) playerUi.findViewById(R.id.playback_time);
+		setPlaytime(playbackTime);
+		
+		mHasDefaultUi = true;
+		return this;
 	}
 
 	/***
