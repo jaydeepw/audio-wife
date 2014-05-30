@@ -36,7 +36,9 @@ import android.media.MediaPlayer.OnCompletionListener;
 import android.net.Uri;
 import android.os.Handler;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
@@ -68,6 +70,7 @@ public class AudioWife {
 	private TextView mPlaybackTime;
 	private View mPlayButton;
 	private View mPauseButton;
+	
 
 	/****
 	 * Array to hold custom completion listeners
@@ -349,9 +352,9 @@ public class AudioWife {
 	}
 	
 	/****
-	 * Add custom play view click listener. Adding multiple listeners will
-	 * queue up all the listners and fire them all together when the event occurs.
-	 */
+	 * Add custom play view click listener. Calling this method multiple times will
+	 * queue up all the listeners and fire them all together when the event occurs.
+	 ***/
 	public AudioWife addOnPlayClickListener(
 			View.OnClickListener listener) {
 
@@ -360,10 +363,10 @@ public class AudioWife {
 		return this;
 	}
 
-	/****
-	 * Add custom pause view click listener. Adding multiple listeners will
-	 * queue up all the listners and fire them all together when the event occurs.
-	 */
+	/***
+	 * Add custom pause view click listener. Calling this method multiple times will
+	 * queue up all the listeners and fire them all together when the event occurs.
+	 ***/
 	public AudioWife addOnPauseClickListener(
 			View.OnClickListener listener) {
 
@@ -461,7 +464,34 @@ public class AudioWife {
 		}
 	}
 	
-	private void useDefaultUi(View playerContainer) {
+	/****
+	 * Sets the default audio player UI as a child of the parameter container view.
+	 * 
+	 * <br/>
+	 * This is the simplest way to get AudioWife working for you. If you are using the default player provided by this method,
+	 * calling method {@link AudioWife#setPlayView(View)}, {@link AudioWife#setPauseView(View)},
+	 * {@link AudioWife#setSeekBar(SeekBar)}, {@link AudioWife#setPlaytime(TextView)} will have no effect.
+	 * <br/><br/>
+	 * The default player UI consists of:
+	 * 
+	 * <ul>
+	 * 	<li>Play view</li>
+	 * 	<li>Pause view</li>
+	 * 	<li>Seekbar</li>
+	 * 	<li>Playtime</li>
+	 * <ul>
+	 * <br/>
+	 * @param playerContainer View to add default player UI to.
+	 ****/
+	public void useDefaultUi(ViewGroup playerContainer, LayoutInflater inflater) {
+		if(playerContainer == null)
+			throw new NullPointerException("Player container cannot be null");
+		
+		if( inflater == null)
+			throw new NullPointerException("Inflater cannot be null");
+		
+		View playerUi = inflater.inflate(R.layout.player, playerContainer);
+		
 		
 	}
 
