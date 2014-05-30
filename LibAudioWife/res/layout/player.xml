@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/player_layout"
+    android:layout_width="match_parent"
+    android:layout_height="50dp "
+    android:background="@drawable/gray_border_wo_padding"
+    android:gravity="center_vertical"
+    android:paddingLeft="4dp" >
+
+    <ImageView
+        android:id="@+id/play"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="6"
+        android:src="@android:drawable/ic_media_play" />
+
+    <ImageView
+        android:id="@+id/pause"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="6"
+        android:src="@android:drawable/ic_media_pause"
+        android:visibility="gone" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.8"
+        android:paddingBottom="5dp"
+        android:paddingRight="10dp"
+        android:paddingTop="5dp" >
+
+        <SeekBar
+            android:id="@+id/media_seekbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical" />
+
+        <TextView
+            android:id="@+id/playback_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|top"
+            android:ellipsize="end"
+            android:inputType="text"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="11sp" />
+    </FrameLayout>
+
+</LinearLayout>

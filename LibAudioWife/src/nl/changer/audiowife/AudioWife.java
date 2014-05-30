@@ -36,7 +36,6 @@ import android.media.MediaPlayer.OnCompletionListener;
 import android.net.Uri;
 import android.os.Handler;
 import android.util.Log;
-import android.util.MonthDisplayHelper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -51,7 +50,8 @@ public class AudioWife {
 	private static final String TAG = AudioWife.class.getSimpleName();
 
 	/***
-	 * Keep a single copy of this in memory
+	 * Keep a single copy of this in memory unless required to create a new instance 
+	 * explicitly.
 	 ****/
 	private static AudioWife mAudioWife;
 
@@ -144,6 +144,10 @@ public class AudioWife {
 	}
 
 	private void updatePlaytime(int currentTime) {
+		
+		if(mPlaybackTime == null)
+			return;
+		
 		long totalDuration = 0;
 
 		if (mMediaPlayer != null) {
@@ -230,6 +234,10 @@ public class AudioWife {
 	 * You can set {@link Button} or an {@link ImageView} as Play control
 	 ****/
 	public AudioWife setPlayView(View play) {
+		
+		if(play == null)
+			throw new NullPointerException("PlayView cannot be null");
+		
 		mPlayButton = play;
 		
 		initOnPlayClick();
@@ -251,7 +259,7 @@ public class AudioWife {
 		});
 		
 		// Fire all the attached listeners
-		// when the play button is actually clicked
+		// when the play button is clicked
 		mPlayButton.setOnClickListener( new View.OnClickListener() {
 			
 			@Override
@@ -269,6 +277,10 @@ public class AudioWife {
 	 * called.
 	 ****/
 	public AudioWife setPauseView(View pause) {
+		
+		if(pause == null)
+			throw new NullPointerException("PauseView cannot be null");
+		
 		mPauseButton = pause;
 		
 		initOnPauseClick();
@@ -290,7 +302,7 @@ public class AudioWife {
 		});
 		
 		// Fire all the attached listeners
-		// when the pause button is actually clicked
+		// when the pause button is clicked
 		mPauseButton.setOnClickListener( new View.OnClickListener() {
 			
 			@Override
@@ -307,6 +319,7 @@ public class AudioWife {
 	 * in the UI.
 	 ****/
 	public AudioWife setPlaytime(TextView playTime) {
+		
 		mPlaybackTime = playTime;
 		
 		// initialize the playtime to 0
@@ -315,6 +328,7 @@ public class AudioWife {
 	}
 
 	public AudioWife setSeekBar(SeekBar seekbar) {
+		
 		mSeekBar = seekbar;
 		initMediaSeekBar();
 		return this;
@@ -412,6 +426,9 @@ public class AudioWife {
 
 	private void initMediaSeekBar() {
 
+		if(mSeekBar == null)
+			return;
+		
 		// update seekbar
 		long finalTime = mMediaPlayer.getDuration();
 		mSeekBar.setMax((int) finalTime);
@@ -442,6 +459,10 @@ public class AudioWife {
 		for (OnCompletionListener listener : mCompletionListeners) {
 			listener.onCompletion(mp);
 		}
+	}
+	
+	private void useDefaultUi(View playerContainer) {
+		
 	}
 
 	/***
