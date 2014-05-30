@@ -47,6 +47,7 @@ Features
 =========
 1. Provides default UI truly making it an integrable player.
 2. Ability to set multiple custom click handlers to play and pause buttons.
+3. No dependencies.
 
 
 Including in your project
@@ -73,7 +74,7 @@ Permission required to play audio
 ##Using default player UI
 
 AudioWife comes with a simple default player UI that you can use right away.
-This is the simplest and faster way to get AudioWife working.
+This is the simplest and fastest way to get AudioWife working.
 
 ```java
 // mPlayerContainer = View to integrate default player UI into.
