@@ -2,6 +2,7 @@ package nl.changer.audiowifedemo;
 
 import nl.changer.audiowife.AudioWife;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -18,6 +19,8 @@ public class MainActivity extends FragmentActivity {
 	private static final String TAG = MainActivity.class.getSimpleName();
 
 	private static final int INTENT_PICK_AUDIO = 1;
+	
+	private Context mContext;
 
 	private View mPlayMedia;
 	private View mPauseMedia;
@@ -30,7 +33,8 @@ public class MainActivity extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-
+		mContext = MainActivity.this;
+		
 		View pickAudio = findViewById(R.id.pickAudio);
 
 		pickAudio.setOnClickListener(new View.OnClickListener() {
@@ -53,7 +57,7 @@ public class MainActivity extends FragmentActivity {
 			public void onClick(View v) {
 
 				if (mUri == null)
-					Toast.makeText(MainActivity.this,
+					Toast.makeText(mContext,
 							"Pick an audio file before playing",
 							Toast.LENGTH_LONG).show();
 			}
@@ -78,7 +82,7 @@ public class MainActivity extends FragmentActivity {
 
 				mUri = uri;
 
-				AudioWife.getInstance().init(MainActivity.this, uri)
+				AudioWife.getInstance().init(mContext, uri)
 						.setPlayView(mPlayMedia)		// AudioWife takes care of click handler for play button
 						.setPauseView(mPauseMedia)		// AudioWife takes care of click handler for pause button
 						.setSeekBar(mMediaSeekBar)

@@ -46,7 +46,7 @@ Why this project?
 Features
 =========
 1. Provides default UI truly making it an embeddable player.
-2. Ability to set multiple custom click handlers to play and pause buttons. 
+2. Ability to set multiple custom click handlers to play and pause buttons.
 
 
 Including in your project
@@ -62,6 +62,29 @@ This project has NO DEPENDENCIES.
 
 Getting started
 ====================
+
+Permission required to play audio
+
+```xml
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+```
+
+
+##Using default player UI
+
+AudioWife comes with a simple default player UI that you can use right away.
+
+```java
+
+AudioWife.getInstance().init(mContext, uri)
+					   .useDefaultUi(mPlayerContainer, getLayoutInflater());
+
+```
+
+##Using custom player UI
+
+You can initialize the custom player controls of your UI using AudioWife
+
 ```java
 
 // initialize the player controls
@@ -72,7 +95,7 @@ mPlaybackTime = (TextView) findViewById(R.id.playback_time);
 
 // initialize AudioWife
 AudioWife.getInstance()
-		.init(MainActivity.this, uri)
+		.init(mContext, uri)
 		.setPlayView(mPlayMedia)		// AudioWife takes care of click handler for play view
 		.setPauseView(mPauseMedia)		// AudioWife takes care of click handler for pause view
 		.setSeekBar(mMediaSeekBar)
@@ -85,12 +108,6 @@ AudioWife.getInstance().pause();
 // when done playing, release the resources
 AudioWife.getInstance().release();
 
-```
-
-Permission required to play audio
-
-```xml
-<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 ```
 
 ##Add custom listeners

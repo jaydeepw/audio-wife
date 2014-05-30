@@ -535,6 +535,8 @@ public class AudioWife {
 		TextView playbackTime = (TextView) playerUi.findViewById(R.id.playback_time);
 		setPlaytime(playbackTime);
 		
+		// this has to be set after all the views
+		// have finished initializing.
 		mHasDefaultUi = true;
 		return this;
 	}

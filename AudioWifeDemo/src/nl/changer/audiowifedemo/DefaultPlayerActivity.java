@@ -2,6 +2,7 @@ package nl.changer.audiowifedemo;
 
 import nl.changer.audiowife.AudioWife;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -20,6 +21,7 @@ public class DefaultPlayerActivity extends FragmentActivity {
 
 	private static final int INTENT_PICK_AUDIO = 1;
 
+	private Context mContext;
 	private ViewGroup mPlayerContainer;
 
 	private Uri mUri;
@@ -28,7 +30,8 @@ public class DefaultPlayerActivity extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.default_player);
-
+		mContext = DefaultPlayerActivity.this;
+		
 		View pickAudio = findViewById(R.id.pickAudio);
 
 		pickAudio.setOnClickListener(new View.OnClickListener() {
@@ -62,7 +65,7 @@ public class DefaultPlayerActivity extends FragmentActivity {
 
 				mUri = uri;
 
-				AudioWife.getInstance().init(DefaultPlayerActivity.this, uri)
+				AudioWife.getInstance().init(mContext, uri)
 						.useDefaultUi(mPlayerContainer, getLayoutInflater());
 				
 				AudioWife.getInstance().addOnCompletionListener( new MediaPlayer.OnCompletionListener() {
