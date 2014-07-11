@@ -36,6 +36,11 @@ your_player.xml
 ![Audio Player Paused](images/paused.JPG)
 
 
+Demo
+==========
+![Demo Gif](images/demo-gif.gif)
+
+
 Why this project?
 ====================
 1. A simple native audio player API wrapper
