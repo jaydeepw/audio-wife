@@ -11,8 +11,6 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.SeekBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class DefaultPlayerActivity extends FragmentActivity {
@@ -23,8 +21,6 @@ public class DefaultPlayerActivity extends FragmentActivity {
 
 	private Context mContext;
 	private ViewGroup mPlayerContainer;
-
-	private Uri mUri;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -62,8 +58,6 @@ public class DefaultPlayerActivity extends FragmentActivity {
 		if (resuleCode == Activity.RESULT_OK) {
 			if (requestCode == INTENT_PICK_AUDIO) {
 				Uri uri = intent.getData();
-
-				mUri = uri;
 
 				// mPlayerContainer = View to integrate default player UI into.
 				AudioWife.getInstance().init(mContext, uri)
@@ -110,6 +104,5 @@ public class DefaultPlayerActivity extends FragmentActivity {
 
 		// when done playing, release the resources
 		AudioWife.getInstance().release();
-		mUri = null;
 	}
 }

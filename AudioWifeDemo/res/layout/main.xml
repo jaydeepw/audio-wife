@@ -21,14 +21,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="6"
-            android:src="@android:drawable/ic_media_play" />
+            android:padding="6dp"
+            android:src="@drawable/btn_play" />
 
         <ImageView
             android:id="@+id/pause"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="6"
-            android:src="@android:drawable/ic_media_pause"
+            android:padding="6dp"
+            android:src="@drawable/btn_pause"
             android:visibility="gone" />
 
         <FrameLayout

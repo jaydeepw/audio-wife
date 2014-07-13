@@ -83,7 +83,7 @@ AudioWife comes with a simple default player UI that you can use right away.
 This is the simplest and fastest way to get AudioWife working.
 
 ```java
-// mPlayerContainer = View to integrate default player UI into.
+// mPlayerContainer = Parent view to add default player UI to.
 AudioWife.getInstance().init(mContext, uri)
 		.useDefaultUi(mPlayerContainer, getLayoutInflater());
 

@@ -9,6 +9,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -130,5 +132,30 @@ public class MainActivity extends FragmentActivity {
 		// when done playing, release the resources
 		AudioWife.getInstance().release();
 		mUri = null;
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		super.onCreateOptionsMenu(menu);
+		
+		getMenuInflater().inflate(R.menu.main, menu);
+		
+		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		
+		switch (item.getItemId()) {
+		case R.id.default_player:
+			Intent i = new Intent(MainActivity.this, DefaultPlayerActivity.class);
+			startActivity(i);
+			break;
+
+		default:
+			break;
+		}
+		
+		return super.onOptionsItemSelected(item);
 	}
 }
