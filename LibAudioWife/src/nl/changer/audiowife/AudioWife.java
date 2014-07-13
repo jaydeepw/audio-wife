@@ -36,8 +36,9 @@ import android.media.MediaPlayer.OnCompletionListener;
 import android.net.Uri;
 import android.os.Handler;
 import android.util.Log;
-import android.util.MonthDisplayHelper;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
@@ -51,7 +52,8 @@ public class AudioWife {
 	private static final String TAG = AudioWife.class.getSimpleName();
 
 	/***
-	 * Keep a single copy of this in memory
+	 * Keep a single copy of this in memory unless required to create a new instance 
+	 * explicitly.
 	 ****/
 	private static AudioWife mAudioWife;
 
@@ -68,6 +70,11 @@ public class AudioWife {
 	private TextView mPlaybackTime;
 	private View mPlayButton;
 	private View mPauseButton;
+	
+	/***
+	 * Set if AudioWife is using the default UI provided with the library.
+	 * **/
+	private boolean mHasDefaultUi;
 
 	/****
 	 * Array to hold custom completion listeners
@@ -94,6 +101,9 @@ public class AudioWife {
 	private Runnable mUpdateProgress = new Runnable() {
 		public void run() {
 
+			if(mSeekBar == null)
+				return;
+			
 			if (mHandler != null && mMediaPlayer.isPlaying()) {
 				mSeekBar.setProgress((int) mMediaPlayer.getCurrentPosition());
 				updatePlaytime(mMediaPlayer.getCurrentPosition());
@@ -144,6 +154,10 @@ public class AudioWife {
 	}
 
 	private void updatePlaytime(int currentTime) {
+		
+		if(mPlaybackTime == null)
+			return;
+		
 		long totalDuration = 0;
 
 		if (mMediaPlayer != null) {
@@ -230,6 +244,15 @@ public class AudioWife {
 	 * You can set {@link Button} or an {@link ImageView} as Play control
 	 ****/
 	public AudioWife setPlayView(View play) {
+		
+		if(play == null)
+			throw new NullPointerException("PlayView cannot be null");
+		
+		if(mHasDefaultUi) {
+			Log.w(TAG, "Already using default UI. Setting play view will have no effect");
+			return this;
+		}
+		
 		mPlayButton = play;
 		
 		initOnPlayClick();
@@ -251,7 +274,7 @@ public class AudioWife {
 		});
 		
 		// Fire all the attached listeners
-		// when the play button is actually clicked
+		// when the play button is clicked
 		mPlayButton.setOnClickListener( new View.OnClickListener() {
 			
 			@Override
@@ -269,6 +292,15 @@ public class AudioWife {
 	 * called.
 	 ****/
 	public AudioWife setPauseView(View pause) {
+		
+		if(pause == null)
+			throw new NullPointerException("PauseView cannot be null");
+		
+		if(mHasDefaultUi) {
+			Log.w(TAG, "Already using default UI. Setting pause view will have no effect");
+			return this;
+		}
+		
 		mPauseButton = pause;
 		
 		initOnPauseClick();
@@ -290,7 +322,7 @@ public class AudioWife {
 		});
 		
 		// Fire all the attached listeners
-		// when the pause button is actually clicked
+		// when the pause button is clicked
 		mPauseButton.setOnClickListener( new View.OnClickListener() {
 			
 			@Override
@@ -307,6 +339,12 @@ public class AudioWife {
 	 * in the UI.
 	 ****/
 	public AudioWife setPlaytime(TextView playTime) {
+		
+		if(mHasDefaultUi) {
+			Log.w(TAG, "Already using default UI. Setting play time will have no effect");
+			return this;
+		}
+		
 		mPlaybackTime = playTime;
 		
 		// initialize the playtime to 0
@@ -315,6 +353,12 @@ public class AudioWife {
 	}
 
 	public AudioWife setSeekBar(SeekBar seekbar) {
+		
+		if(mHasDefaultUi) {
+			Log.w(TAG, "Already using default UI. Setting seek bar will have no effect");
+			return this;
+		}
+		
 		mSeekBar = seekbar;
 		initMediaSeekBar();
 		return this;
@@ -335,9 +379,9 @@ public class AudioWife {
 	}
 	
 	/****
-	 * Add custom play view click listener. Adding multiple listeners will
-	 * queue up all the listners and fire them all together when the event occurs.
-	 */
+	 * Add custom play view click listener. Calling this method multiple times will
+	 * queue up all the listeners and fire them all together when the event occurs.
+	 ***/
 	public AudioWife addOnPlayClickListener(
 			View.OnClickListener listener) {
 
@@ -346,10 +390,10 @@ public class AudioWife {
 		return this;
 	}
 
-	/****
-	 * Add custom pause view click listener. Adding multiple listeners will
-	 * queue up all the listners and fire them all together when the event occurs.
-	 */
+	/***
+	 * Add custom pause view click listener. Calling this method multiple times will
+	 * queue up all the listeners and fire them all together when the event occurs.
+	 ***/
 	public AudioWife addOnPauseClickListener(
 			View.OnClickListener listener) {
 
@@ -412,6 +456,9 @@ public class AudioWife {
 
 	private void initMediaSeekBar() {
 
+		if(mSeekBar == null)
+			return;
+		
 		// update seekbar
 		long finalTime = mMediaPlayer.getDuration();
 		mSeekBar.setMax((int) finalTime);
@@ -442,6 +489,56 @@ public class AudioWife {
 		for (OnCompletionListener listener : mCompletionListeners) {
 			listener.onCompletion(mp);
 		}
+	}
+	
+	/****
+	 * Sets the default audio player UI as a child of the parameter container view.
+	 * 
+	 * <br/>
+	 * This is the simplest way to get AudioWife working for you. If you are using the default player provided by this method,
+	 * calling method {@link AudioWife#setPlayView(View)}, {@link AudioWife#setPauseView(View)},
+	 * {@link AudioWife#setSeekBar(SeekBar)}, {@link AudioWife#setPlaytime(TextView)} will have no effect.
+	 * <br/><br/>
+	 * The default player UI consists of:
+	 * 
+	 * <ul>
+	 * 	<li>Play view</li>
+	 * 	<li>Pause view</li>
+	 * 	<li>Seekbar</li>
+	 * 	<li>Playtime</li>
+	 * <ul>
+	 * <br/>
+	 * @param playerContainer View to integrate default player UI into.
+	 ****/
+	public AudioWife useDefaultUi(ViewGroup playerContainer, LayoutInflater inflater) {
+		if(playerContainer == null)
+			throw new NullPointerException("Player container cannot be null");
+		
+		if( inflater == null)
+			throw new NullPointerException("Inflater cannot be null");
+		
+		View playerUi = inflater.inflate(R.layout.player, playerContainer);
+		
+		// init play view
+		View playView = playerUi.findViewById(R.id.play);
+		setPlayView(playView);
+		
+		// init pause view
+		View pauseView = playerUi.findViewById(R.id.pause);
+		setPauseView(pauseView);
+		
+		// init seekbar
+		SeekBar seekBar = (SeekBar) playerUi.findViewById(R.id.media_seekbar);
+		setSeekBar(seekBar);
+		
+		// init playback time view
+		TextView playbackTime = (TextView) playerUi.findViewById(R.id.playback_time);
+		setPlaytime(playbackTime);
+		
+		// this has to be set after all the views
+		// have finished initializing.
+		mHasDefaultUi = true;
+		return this;
 	}
 
 	/***

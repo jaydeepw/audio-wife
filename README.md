@@ -2,6 +2,7 @@ Index
 ==================
 
 * [Introduction](https://github.com/jaydeepw/audio-wife#audio-wife---introduction)
+
 * [Why this project?](https://github.com/jaydeepw/audio-wife#why-this-project)
 
 * [Including in your own project](https://github.com/jaydeepw/audio-wife#including-in-your-project)
@@ -25,7 +26,7 @@ Index
 Audio Wife - Introduction
 ==========
 
-A simple themable audio player library for Android. Helps you have an Audio Controller
+A simple themable & integrable audio player library for Android. Helps you have an Audio Controller
 for your Audio Player UI. Have your own UI and pass the instance of UI controls like
 Play button, Pause button, Seekbar etc to AudioWife and rest is taken care of.
 
@@ -36,11 +37,23 @@ your_player.xml
 ![Audio Player Paused](images/paused.JPG)
 
 
+Demo
+==========
+![Demo Gif](images/demo-gif.gif)
+
+
 Why this project?
 ====================
 1. A simple native audio player API wrapper
-2. Others found were complex & provided no way to be embed as library
+2. Others found were complex & provided no way to be integrate as library
 3. Some even involved compilation using Android NDK
+
+
+Features
+=========
+1. Provides default UI truly making it an integrable player.
+2. Ability to set multiple custom click handlers to play and pause buttons.
+3. No dependencies.
 
 
 Including in your project
@@ -56,6 +69,30 @@ This project has NO DEPENDENCIES.
 
 Getting started
 ====================
+
+Permission required to play audio
+
+```xml
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+```
+
+
+##Using default player UI
+
+AudioWife comes with a simple default player UI that you can use right away.
+This is the simplest and fastest way to get AudioWife working.
+
+```java
+// mPlayerContainer = Parent view to add default player UI to.
+AudioWife.getInstance().init(mContext, uri)
+		.useDefaultUi(mPlayerContainer, getLayoutInflater());
+
+```
+
+##Using custom player UI
+
+You can initialize the custom player controls of your UI using AudioWife
+
 ```java
 
 // initialize the player controls
@@ -66,7 +103,7 @@ mPlaybackTime = (TextView) findViewById(R.id.playback_time);
 
 // initialize AudioWife
 AudioWife.getInstance()
-		.init(MainActivity.this, uri)
+		.init(mContext, uri)
 		.setPlayView(mPlayMedia)		// AudioWife takes care of click handler for play view
 		.setPauseView(mPauseMedia)		// AudioWife takes care of click handler for pause view
 		.setSeekBar(mMediaSeekBar)
@@ -79,12 +116,6 @@ AudioWife.getInstance().pause();
 // when done playing, release the resources
 AudioWife.getInstance().release();
 
-```
-
-Permission required to play audio
-
-```xml
-<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 ```
 
 ##Add custom listeners

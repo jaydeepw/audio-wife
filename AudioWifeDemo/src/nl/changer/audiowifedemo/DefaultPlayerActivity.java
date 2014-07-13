@@ -9,33 +9,24 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.SeekBar;
-import android.widget.TextView;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
-public class MainActivity extends FragmentActivity {
+public class DefaultPlayerActivity extends FragmentActivity {
 
-	private static final String TAG = MainActivity.class.getSimpleName();
+	private static final String TAG = DefaultPlayerActivity.class.getSimpleName();
 
 	private static final int INTENT_PICK_AUDIO = 1;
-	
+
 	private Context mContext;
-
-	private View mPlayMedia;
-	private View mPauseMedia;
-	private SeekBar mMediaSeekBar;
-	private TextView mPlaybackTime;
-
-	private Uri mUri;
+	private ViewGroup mPlayerContainer;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.main);
-		mContext = MainActivity.this;
+		setContentView(R.layout.default_player);
+		mContext = DefaultPlayerActivity.this;
 		
 		View pickAudio = findViewById(R.id.pickAudio);
 
@@ -47,23 +38,9 @@ public class MainActivity extends FragmentActivity {
 			}
 		});
 
-		// initialize the player controls
-		mPlayMedia = findViewById(R.id.play);
-		mPauseMedia = findViewById(R.id.pause);
-		mMediaSeekBar = (SeekBar) findViewById(R.id.media_seekbar);
-		mPlaybackTime = (TextView) findViewById(R.id.playback_time);
-
-		mPlayMedia.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-
-				if (mUri == null)
-					Toast.makeText(mContext,
-							"Pick an audio file before playing",
-							Toast.LENGTH_LONG).show();
-			}
-		});
+		// this will act as container for default
+		// audio player UI.
+		mPlayerContainer = (ViewGroup) findViewById(R.id.player_layout);
 	}
 
 	private void pickAudio() {
@@ -82,13 +59,9 @@ public class MainActivity extends FragmentActivity {
 			if (requestCode == INTENT_PICK_AUDIO) {
 				Uri uri = intent.getData();
 
-				mUri = uri;
-
+				// mPlayerContainer = View to integrate default player UI into.
 				AudioWife.getInstance().init(mContext, uri)
-						.setPlayView(mPlayMedia)		// AudioWife takes care of click handler for play button
-						.setPauseView(mPauseMedia)		// AudioWife takes care of click handler for pause button
-						.setSeekBar(mMediaSeekBar)
-						.setPlaytime(mPlaybackTime);
+						.useDefaultUi(mPlayerContainer, getLayoutInflater());
 				
 				AudioWife.getInstance().addOnCompletionListener( new MediaPlayer.OnCompletionListener() {
 					
@@ -131,31 +104,5 @@ public class MainActivity extends FragmentActivity {
 
 		// when done playing, release the resources
 		AudioWife.getInstance().release();
-		mUri = null;
-	}
-	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		super.onCreateOptionsMenu(menu);
-		
-		getMenuInflater().inflate(R.menu.main, menu);
-		
-		return true;
-	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		
-		switch (item.getItemId()) {
-		case R.id.default_player:
-			Intent i = new Intent(MainActivity.this, DefaultPlayerActivity.class);
-			startActivity(i);
-			break;
-
-		default:
-			break;
-		}
-		
-		return super.onOptionsItemSelected(item);
 	}
 }

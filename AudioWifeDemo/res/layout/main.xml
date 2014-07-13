@@ -10,7 +10,6 @@
     tools:ignore="MergeRootFrame" >
 
     <LinearLayout
-        android:id="@+id/player_layout"
         android:layout_width="match_parent"
         android:layout_height="50dp "
         android:background="@drawable/gray_border_wo_padding"
@@ -22,14 +21,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="6"
-            android:src="@android:drawable/ic_media_play" />
+            android:padding="6dp"
+            android:src="@drawable/btn_play" />
 
         <ImageView
             android:id="@+id/pause"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="6"
-            android:src="@android:drawable/ic_media_pause"
+            android:padding="6dp"
+            android:src="@drawable/btn_pause"
             android:visibility="gone" />
 
         <FrameLayout
@@ -63,8 +64,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
-        android:textColor="#000000"
         android:layout_marginRight="30dp"
-        android:text="Pick Audio" />
+        android:text="Pick Audio"
+        android:textColor="#000000" />
 
 </LinearLayout>
