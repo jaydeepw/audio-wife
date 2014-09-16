@@ -2,6 +2,7 @@ Index
 ==================
 
 * [Introduction](https://github.com/jaydeepw/audio-wife#audio-wife---introduction)
+
 * [Why this project?](https://github.com/jaydeepw/audio-wife#why-this-project)
 
 * [Including in your own project](https://github.com/jaydeepw/audio-wife#including-in-your-project)
@@ -34,6 +35,11 @@ your_player.xml
 ![Audio Player Playing](images/playing.JPG)
 
 ![Audio Player Paused](images/paused.JPG)
+
+
+Demo
+==========
+![Demo Gif](images/demo-gif.gif)
 
 
 Why this project?
@@ -77,7 +83,7 @@ AudioWife comes with a simple default player UI that you can use right away.
 This is the simplest and fastest way to get AudioWife working.
 
 ```java
-// mPlayerContainer = View to integrate default player UI into.
+// mPlayerContainer = Parent view to add default player UI to.
 AudioWife.getInstance().init(mContext, uri)
 		.useDefaultUi(mPlayerContainer, getLayoutInflater());
 
