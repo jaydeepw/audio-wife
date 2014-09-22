@@ -74,6 +74,16 @@ public class AudioWife {
 	private View mPauseButton;
 
 	/***
+	 * Indicates the current run-time of the audio being played
+	 */
+	private TextView mRunTime;
+
+	/***
+	 * Indicates the total duration of the audio being played.
+	 */
+	private TextView mTotalTime;
+
+	/***
 	 * Set if AudioWife is using the default UI provided with the library.
 	 * **/
 	private boolean mHasDefaultUi;
@@ -110,7 +120,7 @@ public class AudioWife {
 
 			if (mHandler != null && mMediaPlayer.isPlaying()) {
 				mSeekBar.setProgress((int) mMediaPlayer.getCurrentPosition());
-				updatePlaytime(mMediaPlayer.getCurrentPosition());
+				updateRuntime(mMediaPlayer.getCurrentPosition());
 				// repeat the process
 				mHandler.postDelayed(this, AUDIO_PROGRESS_UPDATE_TIME);
 			} else {
@@ -167,6 +177,14 @@ public class AudioWife {
 			mPlaybackTime.setVisibility(View.VISIBLE);
 		}
 
+		if (mRunTime != null) {
+			mRunTime.setVisibility(View.VISIBLE);
+		}
+
+		if (mTotalTime != null) {
+			mTotalTime.setVisibility(View.VISIBLE);
+		}
+
 		if (mPlayButton != null) {
 			mPlayButton.setVisibility(View.VISIBLE);
 		}
@@ -192,12 +210,21 @@ public class AudioWife {
 		}
 	}
 
-	private void updatePlaytime(int currentTime) {
+	private void updateRuntime(int currentTime) {
 
 		if (mPlaybackTime == null) {
 			return;
 		}
 
+		StringBuilder playbackStr = new StringBuilder();
+
+		// set the current time
+		// its ok to show 00:00 in the UI
+		playbackStr.append(String.format("%02d:%02d", TimeUnit.MILLISECONDS.toMinutes((long) currentTime), TimeUnit.MILLISECONDS.toSeconds((long) currentTime) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) currentTime))));
+
+		playbackStr.append("/");
+
+		// show total duration.
 		long totalDuration = 0;
 
 		if (mMediaPlayer != null) {
@@ -209,20 +236,12 @@ public class AudioWife {
 				e.printStackTrace();
 			}
 		}
-
-		StringBuilder playbackStr = new StringBuilder();
-
-		// set the current time
-		// its ok to show 00:00 in the UI
-		playbackStr.append(String.format("%02d:%02d", TimeUnit.MILLISECONDS.toMinutes((long) currentTime), TimeUnit.MILLISECONDS.toSeconds((long) currentTime) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) currentTime))));
-
-		playbackStr.append("/");
-
 		// set total time as the audio is being played
 		if (totalDuration != 0) {
 			playbackStr.append(String.format("%02d:%02d", TimeUnit.MILLISECONDS.toMinutes((long) totalDuration), TimeUnit.MILLISECONDS.toSeconds((long) totalDuration) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) totalDuration))));
-		} else
+		} else {
 			Log.w(TAG, "Something strage this audio track duration in zero");
+		}
 
 		mPlaybackTime.setText(playbackStr);
 
@@ -378,7 +397,7 @@ public class AudioWife {
 		mPlaybackTime = playTime;
 
 		// initialize the playtime to 0
-		updatePlaytime(0);
+		updateRuntime(0);
 		return this;
 	}
 
@@ -471,7 +490,7 @@ public class AudioWife {
 			// set UI when audio finished playing
 			int currentPlayTime = 0;
 			mSeekBar.setProgress((int) currentPlayTime);
-			updatePlaytime(currentPlayTime);
+			updateRuntime(currentPlayTime);
 			setPlayable();
 			// ensure that our completion listener fires first.
 			// This will provide the developer to over-ride our
