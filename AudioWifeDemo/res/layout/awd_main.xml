@@ -14,49 +14,65 @@
         android:layout_height="50dp "
         android:background="@drawable/gray_border_wo_padding"
         android:gravity="center_vertical"
+        android:orientation="vertical"
         android:paddingLeft="4dp" >
 
-        <ImageView
-            android:id="@+id/play"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="6"
-            android:padding="6dp"
-            android:src="@drawable/btn_play" />
+            android:layout_height="50dp "
+            android:gravity="center_vertical" >
 
-        <ImageView
-            android:id="@+id/pause"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="6"
-            android:padding="6dp"
-            android:src="@drawable/btn_pause"
-            android:visibility="gone" />
+            <FrameLayout
+                android:id="@+id/play_pause_layout"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:paddingBottom="5dp"
+                android:paddingRight="10dp"
+                android:paddingTop="5dp" >
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="0.8"
-            android:paddingBottom="5dp"
-            android:paddingRight="10dp"
-            android:paddingTop="5dp" >
+                <ImageView
+                    android:id="@+id/play"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="6dp"
+                    android:src="@drawable/btn_play" />
 
-            <SeekBar
-                android:id="@+id/media_seekbar"
+                <ImageView
+                    android:id="@+id/pause"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="6dp"
+                    android:src="@drawable/btn_pause"
+                    android:visibility="gone" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/seekbar_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical" />
+                android:layout_height="match_parent"
+                android:layout_toRightOf="@id/play_pause_layout"
+                android:paddingBottom="5dp"
+                android:paddingRight="10dp"
+                android:paddingTop="5dp" >
 
-            <TextView
-                android:id="@+id/playback_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right|top"
-                android:ellipsize="end"
-                android:inputType="text"
-                android:textColor="@android:color/darker_gray"
-                android:textSize="11sp" />
-        </FrameLayout>
+                <SeekBar
+                    android:id="@+id/media_seekbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical" />
+
+                <TextView
+                    android:id="@+id/playback_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|top"
+                    android:ellipsize="end"
+                    android:inputType="text"
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="11sp" />
+            </FrameLayout>
+        </RelativeLayout>
     </LinearLayout>
 
     <Button
