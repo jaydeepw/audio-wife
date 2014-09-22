@@ -63,8 +63,10 @@ public class AudioWife {
 
 	// TODO: externalize the error messages.
 	private static final String ERROR_PLAYVIEW_NULL = "Play view cannot be null";
+	private static final String ERROR_PLAYTIME_CURRENT_NEGATIVE = "Current playback time cannot be negative";
+	private static final String ERROR_PLAYTIME_TOTAL_NEGATIVE = "Total playback time cannot be negative";
 
-	private Handler mHandler;
+	private Handler mProgressUpdateHandler;
 
 	private MediaPlayer mMediaPlayer;
 
@@ -115,14 +117,17 @@ public class AudioWife {
 
 		public void run() {
 
-			if (mSeekBar == null)
+			if (mSeekBar == null) {
 				return;
+			}
 
-			if (mHandler != null && mMediaPlayer.isPlaying()) {
+			if (mProgressUpdateHandler != null && mMediaPlayer.isPlaying()) {
 				mSeekBar.setProgress((int) mMediaPlayer.getCurrentPosition());
-				updateRuntime(mMediaPlayer.getCurrentPosition());
+				int currentTime = mMediaPlayer.getCurrentPosition();
+				updatePlaytime(currentTime);
+				updateRuntime(currentTime);
 				// repeat the process
-				mHandler.postDelayed(this, AUDIO_PROGRESS_UPDATE_TIME);
+				mProgressUpdateHandler.postDelayed(this, AUDIO_PROGRESS_UPDATE_TIME);
 			} else {
 				// DO NOT update UI if the player is paused
 			}
@@ -154,7 +159,7 @@ public class AudioWife {
 			return;
 		}
 
-		mHandler.postDelayed(mUpdateProgress, AUDIO_PROGRESS_UPDATE_TIME);
+		mProgressUpdateHandler.postDelayed(mUpdateProgress, AUDIO_PROGRESS_UPDATE_TIME);
 
 		// enable visibility of all UI controls.
 		setViewsVisibility();
@@ -210,10 +215,15 @@ public class AudioWife {
 		}
 	}
 
-	private void updateRuntime(int currentTime) {
+	@Deprecated
+	private void updatePlaytime(int currentTime) {
 
 		if (mPlaybackTime == null) {
 			return;
+		}
+
+		if (currentTime < 0) {
+			throw new IllegalArgumentException(ERROR_PLAYTIME_CURRENT_NEGATIVE);
 		}
 
 		StringBuilder playbackStr = new StringBuilder();
@@ -236,6 +246,7 @@ public class AudioWife {
 				e.printStackTrace();
 			}
 		}
+
 		// set total time as the audio is being played
 		if (totalDuration != 0) {
 			playbackStr.append(String.format("%02d:%02d", TimeUnit.MILLISECONDS.toMinutes((long) totalDuration), TimeUnit.MILLISECONDS.toSeconds((long) totalDuration) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) totalDuration))));
@@ -248,19 +259,90 @@ public class AudioWife {
 		// DebugLog.i(currentTime + " / " + totalDuration);
 	}
 
-	private void setPlayable() {
-		if (mPlayButton != null)
-			mPlayButton.setVisibility(View.VISIBLE);
+	private void updateRuntime(int currentTime) {
 
-		if (mPauseButton != null)
-			mPauseButton.setVisibility(View.GONE);
+		if (mRunTime == null) {
+			// this view can be null if the user
+			// does not want to use it. Don't throw
+			// an exception.
+			return;
+		}
+
+		if (currentTime < 0) {
+			throw new IllegalArgumentException(ERROR_PLAYTIME_CURRENT_NEGATIVE);
+		}
+
+		StringBuilder playbackStr = new StringBuilder();
+
+		// set the current time
+		// its ok to show 00:00 in the UI
+		playbackStr.append(String.format("%02d:%02d", TimeUnit.MILLISECONDS.toMinutes((long) currentTime), TimeUnit.MILLISECONDS.toSeconds((long) currentTime) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) currentTime))));
+
+		mRunTime.setText(playbackStr);
+
+		// DebugLog.i(currentTime + " / " + totalDuration);
 	}
 
+	private void setTotalTime() {
+
+		if (mTotalTime == null) {
+			// this view can be null if the user
+			// does not want to use it. Don't throw
+			// an exception.
+			return;
+		}
+
+		StringBuilder playbackStr = new StringBuilder();
+		long totalDuration = 0;
+
+		// by this point the media player is brought to ready state
+		// by the call to init().
+		if (mMediaPlayer != null) {
+			try {
+				totalDuration = mMediaPlayer.getDuration();
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		if (totalDuration < 0) {
+			throw new IllegalArgumentException(ERROR_PLAYTIME_TOTAL_NEGATIVE);
+		}
+
+		// set total time as the audio is being played
+		if (totalDuration != 0) {
+			playbackStr.append(String.format("%02d:%02d", TimeUnit.MILLISECONDS.toMinutes((long) totalDuration), TimeUnit.MILLISECONDS.toSeconds((long) totalDuration) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) totalDuration))));
+		}
+
+		mTotalTime.setText(playbackStr);
+	}
+
+	/***
+	 * Changes audiowife state to enable play functionality.
+	 */
+	private void setPlayable() {
+		if (mPlayButton != null) {
+			mPlayButton.setVisibility(View.VISIBLE);
+		}
+
+		if (mPauseButton != null) {
+			mPauseButton.setVisibility(View.GONE);
+		}
+	}
+
+	/****
+	 * Changes audio wife to enable pause functionality.
+	 */
 	private void setPausable() {
-		if (mPlayButton != null)
+		if (mPlayButton != null) {
 			mPlayButton.setVisibility(View.GONE);
-		if (mPauseButton != null)
+		}
+
+		if (mPauseButton != null) {
 			mPauseButton.setVisibility(View.VISIBLE);
+		}
 	}
 
 	/***
@@ -274,15 +356,17 @@ public class AudioWife {
 	 ****/
 	public AudioWife init(Context ctx, Uri uri) {
 
-		if (uri == null)
+		if (uri == null) {
 			throw new IllegalArgumentException("Uri cannot be null");
+		}
 
-		if (mAudioWife == null)
+		if (mAudioWife == null) {
 			mAudioWife = new AudioWife();
+		}
 
 		mUri = uri;
 
-		mHandler = new Handler();
+		mProgressUpdateHandler = new Handler();
 
 		initPlayer(ctx);
 
@@ -290,7 +374,10 @@ public class AudioWife {
 	}
 
 	/***
-	 * You can set {@link Button} or an {@link ImageView} as Play control
+	 * Sets the audio play functionality on click event of this view. You can set {@link Button} or
+	 * an {@link ImageView} as audio play control
+	 * 
+	 * @see AudioWife#addOnPauseClickListener(android.view.View.OnClickListener)
 	 ****/
 	public AudioWife setPlayView(View play) {
 
@@ -338,13 +425,17 @@ public class AudioWife {
 	}
 
 	/***
-	 * You can set {@link Button} or an {@link ImageView} as the Pause control Pause playback
+	 * Sets the audio pause functionality on click event of the view passed in as a parameter. You
+	 * can set {@link Button} or an {@link ImageView} as audio pause control. Audio pause
 	 * functionality will be unavailable if this method is not called.
+	 * 
+	 * @see AudioWife#addOnPauseClickListener(android.view.View.OnClickListener)
 	 ****/
 	public AudioWife setPauseView(View pause) {
 
-		if (pause == null)
+		if (pause == null) {
 			throw new NullPointerException("PauseView cannot be null");
+		}
 
 		if (mHasDefaultUi) {
 			Log.w(TAG, "Already using default UI. Setting pause view will have no effect");
@@ -358,8 +449,9 @@ public class AudioWife {
 	}
 
 	private void initOnPauseClick() {
-		if (mPauseButton == null)
+		if (mPauseButton == null) {
 			throw new NullPointerException("Pause view cannot be null");
+		}
 
 		// add default click listener to the top
 		// so that it is the one that gets fired first
@@ -385,7 +477,10 @@ public class AudioWife {
 	}
 
 	/***
-	 * Set current playback time. Use this if you have a playback time counter in the UI.
+	 * @deprecated Use {@link AudioWife#setRuntimeView(TextView)} and
+	 *             {@link AudioWife#setTotalTimeView(TextView)} instead. <br/>
+	 *             Sets current and total playback time. Use this if you have a playback time
+	 *             counter in the UI.
 	 ****/
 	public AudioWife setPlaytime(TextView playTime) {
 
@@ -397,7 +492,44 @@ public class AudioWife {
 		mPlaybackTime = playTime;
 
 		// initialize the playtime to 0
+		updatePlaytime(0);
+		return this;
+	}
+
+	/***
+	 * Sets current playback time view. Use this if you have a playback time counter in the UI.
+	 * 
+	 * @see AudioWife#setTotalTimeView(TextView)
+	 ****/
+	public AudioWife setRuntimeView(TextView currentTime) {
+
+		if (mHasDefaultUi) {
+			Log.w(TAG, "Already using default UI. Setting play time will have no effect");
+			return this;
+		}
+
+		mRunTime = currentTime;
+
+		// initialize the playtime to 0
 		updateRuntime(0);
+		return this;
+	}
+
+	/***
+	 * Sets the total playback time view. Use this if you have a playback time counter in the UI.
+	 * 
+	 * @see AudioWife#setRuntimeView(TextView)
+	 ****/
+	public AudioWife setTotalTimeView(TextView totalTime) {
+
+		if (mHasDefaultUi) {
+			Log.w(TAG, "Already using default UI. Setting play time will have no effect");
+			return this;
+		}
+
+		mTotalTime = totalTime;
+
+		setTotalTime();
 		return this;
 	}
 
@@ -490,6 +622,7 @@ public class AudioWife {
 			// set UI when audio finished playing
 			int currentPlayTime = 0;
 			mSeekBar.setProgress((int) currentPlayTime);
+			updatePlaytime(currentPlayTime);
 			updateRuntime(currentPlayTime);
 			setPlayable();
 			// ensure that our completion listener fires first.
@@ -565,7 +698,7 @@ public class AudioWife {
 		if (inflater == null)
 			throw new NullPointerException("Inflater cannot be null");
 
-		View playerUi = inflater.inflate(R.layout.player, playerContainer);
+		View playerUi = inflater.inflate(R.layout.aw_player, playerContainer);
 
 		// init play view
 		View playView = playerUi.findViewById(R.id.play);
@@ -604,7 +737,7 @@ public class AudioWife {
 			mMediaPlayer.reset();
 			mMediaPlayer.release();
 			mMediaPlayer = null;
-			mHandler = null;
+			mProgressUpdateHandler = null;
 		}
 	}
 }

@@ -33,7 +33,7 @@ public class MainActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.main);
+		setContentView(R.layout.awd_main);
 		mContext = MainActivity.this;
 
 		View pickAudio = findViewById(R.id.pickAudio);
@@ -80,14 +80,26 @@ public class MainActivity extends BaseActivity {
 
 				mUri = uri;
 
-				AudioWife.getInstance().init(mContext, uri).setPlayView(mPlayMedia) // AudioWife
+				TextView playTime = (TextView) findViewById(R.id.play_view);
+				TextView totalTime = (TextView) findViewById(R.id.pause_view);
+
+				/*AudioWife.getInstance().init(mContext, uri).setPlayView(mPlayMedia) // AudioWife
 																					// takes care of
 																					// click handler
 																					// for play
 																					// button
 						.setPauseView(mPauseMedia) // AudioWife takes care of click handler for
 													// pause button
-						.setSeekBar(mMediaSeekBar).setPlaytime(mPlaybackTime);
+						.setSeekBar(mMediaSeekBar).setPlaytime(mPlaybackTime);*/
+
+				// AudioWife takes care of click handler for play/pause button
+				AudioWife.getInstance()
+				   		 .init(mContext, uri)
+						 .setPlayView(mPlayMedia)
+						 .setPauseView(mPauseMedia)
+						 .setSeekBar(mMediaSeekBar)
+						 .setRuntimeView(playTime)
+						 .setTotalTimeView(totalTime);
 
 				AudioWife.getInstance().addOnCompletionListener(new MediaPlayer.OnCompletionListener() {
 

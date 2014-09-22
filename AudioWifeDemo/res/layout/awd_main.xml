@@ -68,4 +68,22 @@
         android:text="Pick Audio"
         android:textColor="#000000" />
 
+    <TextView
+        android:id="@+id/play_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:text="Pick Audio"
+        android:textColor="#000000" />
+
+    <TextView
+        android:id="@+id/pause_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:text="Pick Audio"
+        android:textColor="#000000" />
+
 </LinearLayout>

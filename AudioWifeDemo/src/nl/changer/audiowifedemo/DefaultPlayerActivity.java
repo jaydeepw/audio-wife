@@ -25,7 +25,7 @@ public class DefaultPlayerActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.default_player);
+		setContentView(R.layout.awd_default_player);
 		mContext = DefaultPlayerActivity.this;
 
 		View pickAudio = findViewById(R.id.pickAudio);
