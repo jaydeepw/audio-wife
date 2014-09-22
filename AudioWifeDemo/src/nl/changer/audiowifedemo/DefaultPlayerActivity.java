@@ -1,3 +1,4 @@
+
 package nl.changer.audiowifedemo;
 
 import nl.changer.audiowife.AudioWife;
@@ -13,7 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-public class DefaultPlayerActivity extends FragmentActivity {
+public class DefaultPlayerActivity extends BaseActivity {
 
 	private static final String TAG = DefaultPlayerActivity.class.getSimpleName();
 
@@ -27,7 +28,7 @@ public class DefaultPlayerActivity extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.default_player);
 		mContext = DefaultPlayerActivity.this;
-		
+
 		View pickAudio = findViewById(R.id.pickAudio);
 
 		pickAudio.setOnClickListener(new View.OnClickListener() {
@@ -51,8 +52,7 @@ public class DefaultPlayerActivity extends FragmentActivity {
 	}
 
 	@Override
-	protected void onActivityResult(int requestCode, int resuleCode,
-			Intent intent) {
+	protected void onActivityResult(int requestCode, int resuleCode, Intent intent) {
 		super.onActivityResult(requestCode, resuleCode, intent);
 
 		if (resuleCode == Activity.RESULT_OK) {
@@ -60,35 +60,31 @@ public class DefaultPlayerActivity extends FragmentActivity {
 				Uri uri = intent.getData();
 
 				// mPlayerContainer = View to integrate default player UI into.
-				AudioWife.getInstance().init(mContext, uri)
-						.useDefaultUi(mPlayerContainer, getLayoutInflater());
-				
-				AudioWife.getInstance().addOnCompletionListener( new MediaPlayer.OnCompletionListener() {
-					
+				AudioWife.getInstance().init(mContext, uri).useDefaultUi(mPlayerContainer, getLayoutInflater());
+
+				AudioWife.getInstance().addOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+
 					@Override
 					public void onCompletion(MediaPlayer mp) {
-						Toast.makeText(getBaseContext(), "Completed", Toast.LENGTH_SHORT)
-							 .show();
+						Toast.makeText(getBaseContext(), "Completed", Toast.LENGTH_SHORT).show();
 						// do you stuff.
 					}
 				});
-				
+
 				AudioWife.getInstance().addOnPlayClickListener(new View.OnClickListener() {
-					
+
 					@Override
 					public void onClick(View v) {
-						Toast.makeText(getBaseContext(), "Play", Toast.LENGTH_SHORT)
-							 .show();
+						Toast.makeText(getBaseContext(), "Play", Toast.LENGTH_SHORT).show();
 						// get-set-go. Lets dance.
 					}
 				});
-				
+
 				AudioWife.getInstance().addOnPauseClickListener(new View.OnClickListener() {
-					
+
 					@Override
 					public void onClick(View v) {
-						Toast.makeText(getBaseContext(), "Pause", Toast.LENGTH_SHORT)
-							 .show();
+						Toast.makeText(getBaseContext(), "Pause", Toast.LENGTH_SHORT).show();
 						// Your on audio pause stuff.
 					}
 				});

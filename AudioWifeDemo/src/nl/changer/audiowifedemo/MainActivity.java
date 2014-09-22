@@ -1,3 +1,4 @@
+
 package nl.changer.audiowifedemo;
 
 import nl.changer.audiowife.AudioWife;
@@ -16,12 +17,12 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends BaseActivity {
 
 	private static final String TAG = MainActivity.class.getSimpleName();
 
 	private static final int INTENT_PICK_AUDIO = 1;
-	
+
 	private Context mContext;
 
 	private View mPlayMedia;
@@ -29,14 +30,12 @@ public class MainActivity extends FragmentActivity {
 	private SeekBar mMediaSeekBar;
 	private TextView mPlaybackTime;
 
-	private Uri mUri;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		mContext = MainActivity.this;
-		
+
 		View pickAudio = findViewById(R.id.pickAudio);
 
 		pickAudio.setOnClickListener(new View.OnClickListener() {
@@ -59,9 +58,7 @@ public class MainActivity extends FragmentActivity {
 			public void onClick(View v) {
 
 				if (mUri == null)
-					Toast.makeText(mContext,
-							"Pick an audio file before playing",
-							Toast.LENGTH_LONG).show();
+					Toast.makeText(mContext, "Pick an audio file before playing", Toast.LENGTH_LONG).show();
 			}
 		});
 	}
@@ -74,8 +71,7 @@ public class MainActivity extends FragmentActivity {
 	}
 
 	@Override
-	protected void onActivityResult(int requestCode, int resuleCode,
-			Intent intent) {
+	protected void onActivityResult(int requestCode, int resuleCode, Intent intent) {
 		super.onActivityResult(requestCode, resuleCode, intent);
 
 		if (resuleCode == Activity.RESULT_OK) {
@@ -84,38 +80,38 @@ public class MainActivity extends FragmentActivity {
 
 				mUri = uri;
 
-				AudioWife.getInstance().init(mContext, uri)
-						.setPlayView(mPlayMedia)		// AudioWife takes care of click handler for play button
-						.setPauseView(mPauseMedia)		// AudioWife takes care of click handler for pause button
-						.setSeekBar(mMediaSeekBar)
-						.setPlaytime(mPlaybackTime);
-				
-				AudioWife.getInstance().addOnCompletionListener( new MediaPlayer.OnCompletionListener() {
-					
+				AudioWife.getInstance().init(mContext, uri).setPlayView(mPlayMedia) // AudioWife
+																					// takes care of
+																					// click handler
+																					// for play
+																					// button
+						.setPauseView(mPauseMedia) // AudioWife takes care of click handler for
+													// pause button
+						.setSeekBar(mMediaSeekBar).setPlaytime(mPlaybackTime);
+
+				AudioWife.getInstance().addOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+
 					@Override
 					public void onCompletion(MediaPlayer mp) {
-						Toast.makeText(getBaseContext(), "Completed", Toast.LENGTH_SHORT)
-							 .show();
+						Toast.makeText(getBaseContext(), "Completed", Toast.LENGTH_SHORT).show();
 						// do you stuff.
 					}
 				});
-				
+
 				AudioWife.getInstance().addOnPlayClickListener(new View.OnClickListener() {
-					
+
 					@Override
 					public void onClick(View v) {
-						Toast.makeText(getBaseContext(), "Play", Toast.LENGTH_SHORT)
-							 .show();
+						Toast.makeText(getBaseContext(), "Play", Toast.LENGTH_SHORT).show();
 						// get-set-go. Lets dance.
 					}
 				});
-				
+
 				AudioWife.getInstance().addOnPauseClickListener(new View.OnClickListener() {
-					
+
 					@Override
 					public void onClick(View v) {
-						Toast.makeText(getBaseContext(), "Pause", Toast.LENGTH_SHORT)
-							 .show();
+						Toast.makeText(getBaseContext(), "Pause", Toast.LENGTH_SHORT).show();
 						// Your on audio pause stuff.
 					}
 				});
@@ -126,26 +122,17 @@ public class MainActivity extends FragmentActivity {
 	}
 
 	@Override
-	protected void onPause() {
-		super.onPause();
-
-		// when done playing, release the resources
-		AudioWife.getInstance().release();
-		mUri = null;
-	}
-	
-	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
-		
+
 		getMenuInflater().inflate(R.menu.main, menu);
-		
+
 		return true;
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		
+
 		switch (item.getItemId()) {
 		case R.id.default_player:
 			Intent i = new Intent(MainActivity.this, DefaultPlayerActivity.class);
@@ -155,7 +142,7 @@ public class MainActivity extends FragmentActivity {
 		default:
 			break;
 		}
-		
+
 		return super.onOptionsItemSelected(item);
 	}
 }
