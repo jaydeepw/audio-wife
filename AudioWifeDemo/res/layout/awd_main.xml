@@ -11,7 +11,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp "
+        android:layout_height="80dp "
         android:background="@drawable/gray_border_wo_padding"
         android:gravity="center_vertical"
         android:orientation="vertical"
@@ -19,7 +19,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp "
+            android:layout_height="match_parent"
             android:gravity="center_vertical" >
 
             <FrameLayout
@@ -28,7 +28,7 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentLeft="true"
                 android:paddingBottom="5dp"
-                android:paddingRight="10dp"
+                android:paddingRight="5dp"
                 android:paddingTop="5dp" >
 
                 <ImageView
@@ -53,7 +53,7 @@
                 android:layout_height="match_parent"
                 android:layout_toRightOf="@id/play_pause_layout"
                 android:paddingBottom="5dp"
-                android:paddingRight="10dp"
+                android:paddingRight="5dp"
                 android:paddingTop="5dp" >
 
                 <SeekBar
@@ -62,15 +62,47 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical" />
 
-                <TextView
-                    android:id="@+id/playback_time"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right|top"
-                    android:ellipsize="end"
-                    android:inputType="text"
-                    android:textColor="@android:color/darker_gray"
-                    android:textSize="11sp" />
+                    android:orientation="horizontal"
+                    android:paddingBottom="5dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="5dp" >
+
+                    <TextView
+                        android:id="@+id/play_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ellipsize="end"
+                        android:inputType="text"
+                        android:text="00:00"
+                        android:textColor="@android:color/darker_gray"
+                        android:textSize="11sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ellipsize="end"
+                        android:inputType="text"
+                        android:text=" / "
+                        android:textColor="@android:color/darker_gray"
+                        android:textSize="11sp" />
+
+                    <TextView
+                        android:id="@+id/pause_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ellipsize="end"
+                        android:inputType="text"
+                        android:text="00:00"
+                        android:textColor="@android:color/darker_gray"
+                        android:textSize="11sp" />
+                </LinearLayout>
             </FrameLayout>
         </RelativeLayout>
     </LinearLayout>
@@ -84,7 +116,8 @@
         android:text="Pick Audio"
         android:textColor="#000000" />
 
-    <TextView
+    <!--
+         <TextView
         android:id="@+id/play_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -101,5 +134,6 @@
         android:layout_marginRight="30dp"
         android:text="Pick Audio"
         android:textColor="#000000" />
+    -->
 
 </LinearLayout>
