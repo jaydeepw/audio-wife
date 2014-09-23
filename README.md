@@ -143,7 +143,7 @@ AudioWife.getInstance().addOnPlayClickListener(new View.OnClickListener() {
 	public void onClick(View v) {
 		Toast.makeText(getBaseContext(), "Play", Toast.LENGTH_SHORT)
 			 .show();
-		// get-set-go. Lets dance.
+		// Lights-Camera-Action. Lets dance.
 	}
 });
 
