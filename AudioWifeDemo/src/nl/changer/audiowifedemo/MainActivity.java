@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,6 +27,8 @@ public class MainActivity extends BaseActivity {
 	private View mPlayMedia;
 	private View mPauseMedia;
 	private SeekBar mMediaSeekBar;
+	private TextView mRunTime;
+	private TextView mTotalTime;
 	private TextView mPlaybackTime;
 
 	@Override
@@ -50,7 +51,8 @@ public class MainActivity extends BaseActivity {
 		mPlayMedia = findViewById(R.id.play);
 		mPauseMedia = findViewById(R.id.pause);
 		mMediaSeekBar = (SeekBar) findViewById(R.id.media_seekbar);
-		mPlaybackTime = (TextView) findViewById(R.id.playback_time);
+		mRunTime = (TextView) findViewById(R.id.run_time);
+		mTotalTime = (TextView) findViewById(R.id.total_time);
 
 		mPlayMedia.setOnClickListener(new View.OnClickListener() {
 
@@ -80,26 +82,15 @@ public class MainActivity extends BaseActivity {
 
 				mUri = uri;
 
-				TextView playTime = (TextView) findViewById(R.id.play_view);
-				TextView totalTime = (TextView) findViewById(R.id.pause_view);
-
-				/*AudioWife.getInstance().init(mContext, uri).setPlayView(mPlayMedia) // AudioWife
-																					// takes care of
-																					// click handler
-																					// for play
-																					// button
-						.setPauseView(mPauseMedia) // AudioWife takes care of click handler for
-													// pause button
-						.setSeekBar(mMediaSeekBar).setPlaytime(mPlaybackTime);*/
-
-				// AudioWife takes care of click handler for play/pause button
+				// AudioWife takes care of click 
+				// handler for play/pause button
 				AudioWife.getInstance()
-				   		 .init(mContext, uri)
+						 .init(mContext, uri)
 						 .setPlayView(mPlayMedia)
 						 .setPauseView(mPauseMedia)
 						 .setSeekBar(mMediaSeekBar)
-						 .setRuntimeView(playTime)
-						 .setTotalTimeView(totalTime);
+						 .setRuntimeView(mRunTime)
+						 .setTotalTimeView(mTotalTime);
 
 				AudioWife.getInstance().addOnCompletionListener(new MediaPlayer.OnCompletionListener() {
 

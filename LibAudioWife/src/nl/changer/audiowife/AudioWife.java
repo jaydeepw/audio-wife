@@ -71,7 +71,14 @@ public class AudioWife {
 	private MediaPlayer mMediaPlayer;
 
 	private SeekBar mSeekBar;
+
+	@Deprecated
+	/***
+	 * Set both current playack time and total runtime
+	 * of the audio in the UI.
+	 */
 	private TextView mPlaybackTime;
+
 	private View mPlayButton;
 	private View mPauseButton;
 
@@ -635,8 +642,9 @@ public class AudioWife {
 
 	private void initMediaSeekBar() {
 
-		if (mSeekBar == null)
+		if (mSeekBar == null) {
 			return;
+		}
 
 		// update seekbar
 		long finalTime = mMediaPlayer.getDuration();
@@ -649,6 +657,10 @@ public class AudioWife {
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar) {
 				mMediaPlayer.seekTo(seekBar.getProgress());
+
+				// if the audio is paused and seekbar is moved,
+				// update the play time in the UI.
+				updateRuntime(seekBar.getProgress());
 			}
 
 			@Override
@@ -676,7 +688,9 @@ public class AudioWife {
 	 * This is the simplest way to get AudioWife working for you. If you are using the default
 	 * player provided by this method, calling method {@link AudioWife#setPlayView(View)},
 	 * {@link AudioWife#setPauseView(View)}, {@link AudioWife#setSeekBar(SeekBar)},
-	 * {@link AudioWife#setPlaytime(TextView)} will have no effect. <br/>
+	 * {@link AudioWife#setPlaytime(TextView)} will have no effect.
+	 * 
+	 * <br/>
 	 * <br/>
 	 * The default player UI consists of:
 	 * 
@@ -692,11 +706,13 @@ public class AudioWife {
 	 *            View to integrate default player UI into.
 	 ****/
 	public AudioWife useDefaultUi(ViewGroup playerContainer, LayoutInflater inflater) {
-		if (playerContainer == null)
+		if (playerContainer == null) {
 			throw new NullPointerException("Player container cannot be null");
+		}
 
-		if (inflater == null)
-			throw new NullPointerException("Inflater cannot be null");
+		if (inflater == null) {
+			throw new IllegalArgumentException("Inflater cannot be null");
+		}
 
 		View playerUi = inflater.inflate(R.layout.aw_player, playerContainer);
 
