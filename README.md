@@ -96,20 +96,20 @@ You can initialize the custom player controls of your UI using AudioWife
 ```java
 
 // initialize the player controls
-		mPlayMedia = findViewById(R.id.play);
-		mPauseMedia = findViewById(R.id.pause);
-		mMediaSeekBar = (SeekBar) findViewById(R.id.media_seekbar);
-		mRunTime = (TextView) findViewById(R.id.run_time);
-		mTotalTime = (TextView) findViewById(R.id.total_time);
+mPlayMedia = findViewById(R.id.play);
+mPauseMedia = findViewById(R.id.pause);
+mMediaSeekBar = (SeekBar) findViewById(R.id.media_seekbar);
+mRunTime = (TextView) findViewById(R.id.run_time);
+mTotalTime = (TextView) findViewById(R.id.total_time);
 
 // AudioWife takes care of click handler for play/pause button
-		AudioWife.getInstance()
-				 .init(mContext, uri)
-				 .setPlayView(mPlayMedia)
-				 .setPauseView(mPauseMedia)
-				 .setSeekBar(mMediaSeekBar)
-				 .setRuntimeView(mRunTime)
-				 .setTotalTimeView(mTotalTime);
+AudioWife.getInstance()
+		 .init(mContext, uri)
+		 .setPlayView(mPlayMedia)
+		 .setPauseView(mPauseMedia)
+		 .setSeekBar(mMediaSeekBar)
+		 .setRuntimeView(mRunTime)
+		 .setTotalTimeView(mTotalTime);
 
 // to explicitly pause
 AudioWife.getInstance().pause();
