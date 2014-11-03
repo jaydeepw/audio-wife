@@ -42,6 +42,12 @@ Demo
 ![Demo Gif](images/demo-gif.gif)
 
 
+Caution!
+==========
+Eclipse library project structure has been dropped. If you wish to use this library in your eclipse IDE, please checkout [eclipse-develop][3].
+No further development will be done or merged into [eclipse-develop][3] branch.
+
+
 Why this project?
 ====================
 1. A simple native audio player API wrapper
@@ -66,6 +72,18 @@ Eclipse or ant.
 
 This project has NO DEPENDENCIES.
 
+
+Download
+--------
+Gradle:
+```groovy
+
+{
+	compile 'net.the4thdimension:audio-wife:1.0.3'
+}
+
+```
+Requires Android 4.0+.
 
 Getting started
 ====================
@@ -218,3 +236,4 @@ License
 
 [1]: http://developer.android.com/guide/developing/projects/projects-eclipse.html
 [2]: http://developer.android.com/guide/developing/projects/projects-eclipse.html#ReferencingLibraryProject
+[3]: https://github.com/jaydeepw/audio-wife/tree/eclipse-develop
