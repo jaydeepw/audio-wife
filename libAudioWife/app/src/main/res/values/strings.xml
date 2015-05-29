@@ -1,5 +1,14 @@
 <resources>
 
     <string name="app_name">LibAudioWife</string>
+    <string name="ERROR_PLAYVIEW_NULL">Play view cannot be null</string>
+    <string name="URI_NULL">Uri cannot be null. Call init() before calling this method</string>
+    <string name="CALL_INIT">Call init() before calling this method</string>
+    <string name="ERROR_PLAYTIME_CURRENT_NEGATIVE">Current playback time cannot be negative</string>
+    <string name="ERROR_PLAYTIME_TOTAL_NEGATIVE">Total playback time cannot be negative</string>
+    <string name="ERROR_PAUSEVIEW_NULL">Pauseview cannot be null</string>
+    <string name="ERROR_PLAYERCONTAINER_NULL">Player container cannot be null</string>
+    <string name="ERROR_INFLATER_NULL">Inflater cannot be null</string>
+    <string name="ERROR_URI_NULL">Uri cannot be null</string>
 
 </resources>
