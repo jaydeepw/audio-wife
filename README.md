@@ -95,7 +95,7 @@ Permission required to play audio
 ```
 
 
-##Using default player UI
+## Using default player UI
 
 AudioWife comes with a simple default player UI that you can use right away.
 This is the simplest and fastest way to get AudioWife working.
@@ -107,7 +107,7 @@ AudioWife.getInstance().init(mContext, uri)
 
 ```
 
-##Using custom player UI
+## Using custom player UI
 
 You can initialize the custom player controls of your UI using AudioWife
 
@@ -138,7 +138,7 @@ AudioWife.getInstance().release();
 
 ```
 
-##Add custom listeners
+## Add custom listeners
 
 To extend the capabilities of AudioWife, custom click listeners can be attached.
 Refer to source documentation for more details.
